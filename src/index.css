@@ -1,0 +1,59 @@
+.modaliniciarletras{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+    background-color: #053d57;
+}
+.iniciarGoogle{
+    size: lg;
+}
+.headerPublic{
+    color: #b3d2f2;
+    font-size: 60px;
+}
+.margen{
+    margin-left: 50px;
+}
+.targetaspublicas{
+    margin-right: 10px;
+}
+.HeaderPublic{
+    background-color: #97bcc7;
+}
+.imagenHeaderPerfil{
+    max-width: 200px !important;
+    border-radius: 100px;
+    margin-left: 30px;
+}
+.titulosHeaderPublic{
+    background-color: #006884;
+    color: white;
+    border-radius: 15px;
+}
+.AsideWorks{
+    background-color: #b3d2f2;
+    height: 96vh;
+    color: white;
+}
+.imagenPanle{
+    margin-top: 15px;
+    width: 200px;
+    height: 200px;
+}
+.fechaPanel{
+    background-color: #006884;
+    margin-left: 70%;
+    margin-right: 10px;
+    color: white;
+}
+.regresarPanel{
+    background-color: #006884;
+    color: white;
+}
+.fondoPanel{
+    background-color: #b3d2f2;
+}
+.imgPanelDescripcion{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+}
