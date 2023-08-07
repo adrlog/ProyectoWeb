@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 // import ImageIcon from "@mui/icons-material/Image";
 import ImageGallery from "react-image-gallery";
+import user from '../../assets/defaultuser.jpg';
 import "react-image-gallery/styles/css/image-gallery.css";
+import Procesamiento from './Procesamiento';
 
 const HacerPub = () => {
-    
+  
+    const { PublicarTramite, PublicarCurso }=Procesamiento();
+
     const [descripcion, setdescripcion] = useState("");
     const [Horas, setHoras]= useState("");
     const [Titulo, setTitulo] = useState("");
@@ -16,11 +20,24 @@ const HacerPub = () => {
     const [mensaje, setMensaje] = useState('');
     const [Presupuesto , setPresupuesto ] = useState('');
     const [Preferencias , setPreferencias ] = useState('');
-
+    const [Reset, setReset] = useState(false);
+    const form = useRef(null);
     //Imagen
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
   const [imagenes, setImagenes] = useState([]);
+
+  useEffect(() => {
+    setdescripcion('');
+    setHoras('');
+    setTipo('');
+    setTitulo('');
+    setMateria('');
+    setDepartamento('');
+    setDias('');
+    setPresupuesto('');
+    setPreferencias('');
+  },[Reset])
 
   useEffect(() => {
     if (!selectedFile) {
@@ -59,9 +76,68 @@ const HacerPub = () => {
     setImagenes(arregloAuxilar);
   };
 
-    const HacerPublicacion =(e)=>{
-        e.preventDefault()
-        console.log(Materia)
+    const HacerPublicacion =async (e)=>{
+        e.preventDefault();
+
+        const data = new FormData(form.current);
+        const dataObject = Object.fromEntries([...data.entries()]);
+        ///console.log(imagenes);
+        console.log(selectedFile);
+
+        if(!Titulo.trim()){
+          alert('el campo Titulo es requerido')
+          return
+        }
+
+
+        if(Tipo){
+          if(!Materia.trim() && Materia.length<5){
+            alert('el campo Materia debe tener almenos 5 letras')
+            return
+          }
+
+          if(!Horas.trim()){
+            alert('el campo Horas es requerido')
+            return
+          }
+
+          if(!Dias.trim()){
+            alert('el campo Dias es requerido')
+            return
+          }
+
+          var res = await PublicarCurso(Titulo, Materia, 
+            Horas, Dias, Presupuesto, descripcion, Preferencias, selectedFile);
+
+            if(res=='Terminado'){
+              setReset(!Reset);
+            }
+
+        } else {
+          if(!Departamento.trim()){
+            alert('Selecciona un departamento');
+            return;
+          }
+
+          if(!Presupuesto.trim()){
+            alert('el campo Presupuesto es requerido');
+            return;
+          }
+  
+          if(!descripcion.trim()){
+            alert('el campo Descripcion es requerido');
+            return;
+          }
+
+          var res = await PublicarTramite(Titulo, 
+            Departamento, Presupuesto, descripcion, Preferencias, selectedFile);
+
+            if(res=='Terminado'){
+              setReset(!Reset);
+            }
+
+        }
+
     }
 
   return (
@@ -80,8 +156,8 @@ const HacerPub = () => {
         </Row>
 
         <Row className='mt-3 margen'>
-        <Col className='border '>
-        <Form onSubmit={HacerPublicacion}>
+        <Col className='border'>
+        <Form ref={form} onSubmit={HacerPublicacion}>
             <Form.Group className="mb-3" controlId="public.Titulo">
               <Form.Label>
                 <h3>Titulo</h3></Form.Label>
@@ -152,11 +228,12 @@ const HacerPub = () => {
               <Form.Label>Selecciona un departamento de tramite</Form.Label>
               <Form.Select                 
                 value={Departamento}
+                name='Departamento'
                 onChange={(e)=>setDepartamento(e.target.value)}
               >
-                <option></option>
-                <option value={'Servicios'}>Servicios escolares</option>
-                <option value={'Vinculacion'}>Vinculacion escolar</option>
+                <option value={''}></option>
+                <option value={'ServiciosEscolares'}>Servicios escolares</option>
+                <option value={'VinculacionEscolar'}>Vinculacion escolar</option>
                 <option value={'Finanzas'}>Finanzas</option>
               </Form.Select>
             </Form.Group>
@@ -238,12 +315,36 @@ const HacerPub = () => {
             }
             <Form.Group className="mb-3" controlId="public.submit">
             <div className="d-grid gap-2 mt-2">
-              <Button type="submit" size="lg" style={{backgroundColor:'#006884'}}>Registrar</Button>
+              <Button type="submit" size="lg" style={{backgroundColor:'#006884'}}>Publicar</Button>
             </div>
             </Form.Group>
           </Form>
         </Col>
-        <Col></Col>
+        <Col>
+        <Container>
+          <Row>
+            <Col md={2}></Col>
+          <Col className='border' style={{borderRadius:'25px', marginTop:'100px'}}>
+              <Row className='mt-3'>
+                  <Col md={4}>
+                      <img src={user} alt="" width='100px'/>
+                  </Col>
+                  <Col>
+                  <span>Nombre del usuario</span>
+                  <br />
+                  <span>{Titulo?Titulo:'Titulo'}</span>
+                  </Col>
+              </Row>
+              <Row className='mb-3'>
+                  <Col>${Presupuesto?Presupuesto:'50.0'}</Col>
+                  <Col><Button variant='outline-primary'
+                  href='dashboard/panel'>saber mas ...</Button></Col>
+              </Row>
+          </Col>
+          <Col md={2}></Col>
+          </Row>
+        </Container>
+        </Col>
         </Row>
     </>
   )

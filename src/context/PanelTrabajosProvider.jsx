@@ -1,39 +1,49 @@
 import { reload } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react'
 import { db } from "../config/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, collection, query, where, getDocs } from "firebase/firestore";
 
 export const PanelContext = createContext();
 
 const PanelTrabajosProvider = (props) => {
 
     const [docUsuario, setdocUsuario]=useState([]);
-    // const [docTrabajo, setdocTrabajo]=useState();
-    // const [State, setState]=useState(false);
-    // const [Recargar, setRecargar]=useState(false);
-    // const [docForPay, setdocForPay]=useState('');
-    // const [docAcount, setdocAcount]=useState('');
-    // const [metodosPago, setMetodosPago]=useState('');
-    // const [pagado, setPagado]=useState(false);
-    // const [extra, setExtra]=useState(false);
+    const [Publicaciones, setPublicaciones]=useState([]);
+    const [Recargar, setRecargar]=useState(false);
 
+    useEffect(()=>{
 
-    // const trabajo=async (ref)=>{
-    //   const docRef  = doc(db, "Usuarios", ref.idTrabajador, "Trabajos", ref.id);
-    //   const docSnap = await getDoc(docRef);
+      if(Publicaciones.length==0){
+        console.log('recargando...')
+        setRecargar(!Recargar);
+      }
 
-    //   var dataDB=docSnap.data();
-    //   setdocTrabajo(dataDB);
-    // }
+      const obtenerPublicaciones =async ()=>{
+        var Mostrar = [];
+        const q = collection(db, 'Usuarios');
+        const users = await getDocs(q);
+        users.forEach(async (doc)=>{
+          
+          const snap = collection(db, 'Usuarios', doc.id, 'Trabajos');
+          const pubs = await getDocs(snap);
+          const dataDB = pubs.docs.map((item)=>item.data());
+          Mostrar.push([dataDB,doc.data()]);
+          console.log(Mostrar)
 
-    // useEffect(()=>{
-    //   trabajo(docTrabajo);
-    // },[extra])
+        })
+
+        setPublicaciones(Mostrar);
+
+      }
+
+      obtenerPublicaciones();
+
+    },[Recargar])
 
 
   return (
     <PanelContext.Provider 
-    value={{docUsuario, setdocUsuario}}>
+    value={{docUsuario, setdocUsuario, Publicaciones}}>
         {props.children}
     </PanelContext.Provider>
   )
