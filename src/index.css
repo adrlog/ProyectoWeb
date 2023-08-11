@@ -57,3 +57,13 @@
     height: 200px;
     border-radius: 100px;
 }
+.imgModalPerfilContenedor{
+    height: 60px !important;
+    width: 80px !important;
+    justify-content: center !important;
+    display: flex;
+}
+.imgMuroPerfil{
+    height: 60px !important;
+    width: 60px !important;
+}

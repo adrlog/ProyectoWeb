@@ -56,7 +56,8 @@ const Procesamiento = () => {
                 Imagenes,
                 Vistafecha,
                 Fecha:serverTimestamp(),
-                id:docRef.id
+                id:docRef.id,
+                Tipo:'Curso'
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -77,7 +78,8 @@ const Procesamiento = () => {
                 Imagenes,
                 Vistafecha,
                 Fecha:serverTimestamp(),
-                id:docRef.id
+                id:docRef.id,
+                Tipo:'Curso'
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -118,7 +120,8 @@ const Procesamiento = () => {
                 Imagenes,
                 Vistafecha,
                 Fecha:serverTimestamp(),
-                id:docRef.id
+                id:docRef.id,
+                Tipo:'Tramite'
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -139,7 +142,8 @@ const Procesamiento = () => {
                 Imagenes,
                 Vistafecha,
                 Fecha:serverTimestamp(),
-                id:docRef.id
+                id:docRef.id,
+                Tipo:'Tramite'
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());

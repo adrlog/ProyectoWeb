@@ -12,7 +12,7 @@ export default function UserContextProvider({ children }) {
     useEffect(()=>{
         // console.log('use efect en axion');
         const unsuscribe=onAuthStateChanged(auth, (user) =>{
-            console.log(user);
+            // console.log(user);
             setUser(user)
         });
         return unsuscribe;

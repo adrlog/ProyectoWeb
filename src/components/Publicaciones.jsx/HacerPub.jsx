@@ -142,19 +142,6 @@ const HacerPub = () => {
 
   return (
     <>
-        <Row className='bg-light p-3'>
-            <Col>
-            <Container>
-            <h1><i className="fa-solid fa-left-long headerPublic"></i></h1>
-            </Container>
-            </Col>
-            <Col>
-            <h1>Crear una publicacion</h1>
-            </Col>
-            <Col>
-            </Col>
-        </Row>
-
         <Row className='mt-3 margen'>
         <Col className='border'>
         <Form ref={form} onSubmit={HacerPublicacion}>
