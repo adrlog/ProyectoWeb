@@ -6,10 +6,11 @@ export const PubsContext = createContext();
 const PanelPubsProvider = (props) => {
 
     const [Publicar, setPublicar]=useState(false);
+    const [Detalles, setDetalles]=useState(false);
 
   return (
     <PubsContext.Provider 
-    value={{Publicar, setPublicar}}>
+    value={{Publicar, setPublicar, Detalles, setDetalles}}>
         {props.children}
     </PubsContext.Provider>
   )

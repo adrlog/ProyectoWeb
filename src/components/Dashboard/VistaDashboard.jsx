@@ -2,17 +2,24 @@ import HeaderPublic from "./HeaderPublic"
 import Targetas from './Targetas'
 import { PanelContext } from "../../context/PanelTrabajosProvider";
 import { useContext } from "react";
+import PanelWorks from "./PanelWorks";
 
 const VistaDashboard = () => {
   
-  const { docTrabajo, docUsuario, State } = useContext(PanelContext);
+  const { State } = useContext(PanelContext);
 
 
 
   return (
     <div>
-      <HeaderPublic/>
-      <Targetas/>
+      {
+        State
+        ?<PanelWorks/>
+        :<>
+        <HeaderPublic/>
+        <Targetas/>
+        </>
+      }
     </div>
   )
 }

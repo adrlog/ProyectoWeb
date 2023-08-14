@@ -9,12 +9,12 @@ const PanelTrabajosProvider = (props) => {
 
     const [docUsuario, setdocUsuario]=useState();
     const [docTrabajo, setdocTrabajo]=useState();
-    const [Recargar, setRecargar]=useState(false);
+    const [State, setState]=useState(false);
 
 
   return (
     <PanelContext.Provider 
-    value={{docUsuario, setdocUsuario, docTrabajo, setdocTrabajo}}>
+    value={{docUsuario, setdocUsuario, docTrabajo, setdocTrabajo, State, setState}}>
         {props.children}
     </PanelContext.Provider>
   )

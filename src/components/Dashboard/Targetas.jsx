@@ -9,7 +9,7 @@ const Targetas = () => {
   const { obtenerPublicaciones,
     Publicaciones,} = Solicitar(); 
   const {  setdocUsuario,
-     setdocTrabajo } = useContext (PanelContext);
+     setdocTrabajo, setState, State } = useContext (PanelContext);
 
   useEffect(()=>{
     obtenerPublicaciones();
@@ -24,6 +24,13 @@ const Targetas = () => {
     setdocTrabajo(pub)
   }
 
+  const PanelView =(us, pub)=>{
+    setState(!State);
+    setdocUsuario(us);
+    setdocTrabajo(pub);
+    // console.log('cambiar vista');
+  }
+
   return (
     <>
         <Container className='mt-5'>
@@ -31,8 +38,8 @@ const Targetas = () => {
             {Publicaciones[0]?Publicaciones.map((item, i)=>
             (
                 item[0].map((pub)=>(
-                <Col className='border targetaspublicas' 
-                onClick={()=>prev(item[1], pub)}
+                <Col className='border targetaspublicas mb-2' 
+                onClick={()=>prev(item[1], pub)} 
                 key={i+pub.Titulo} style={{borderRadius:'25px'}}>
                     <Row className='mt-3'>
                         <Col md={4}>
@@ -47,7 +54,7 @@ const Targetas = () => {
                     <Row className='mb-3'>
                         <Col>${pub&&pub.Presupuesto} </Col>
                         <Col><Button variant='outline-primary'
-                        href='dashboard/panel'>saber mas ...</Button></Col>
+                        onClick={()=>PanelView(item[1], pub)}>saber mas ...</Button></Col>
                     </Row>
                 </Col>
                 ))

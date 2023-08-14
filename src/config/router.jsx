@@ -5,7 +5,7 @@ import PrivateLayout from "../layout/PrivateLayout";
 import Login from "../pages/Login";
 import Publicar from "../pages/Publicar";
 import Dashboard from "../pages/Dashboard";
-import Panel from '../pages/Panel';
+import Pagos from '../pages/Pagos';
 
 
 export const router = createBrowserRouter([
@@ -30,8 +30,8 @@ export const router = createBrowserRouter([
                         element: <Publicar />,
                     },
                     {
-                        path: "panel",
-                        element: <Panel />,
+                        path: "pagos",
+                        element: <Pagos />,
                     },
                 ],
             },

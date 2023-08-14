@@ -20,10 +20,13 @@ import {
     ref,
     uploadBytes
 } from "firebase/storage";
+import { useState } from "react";
 
 const Procesamiento = () => {
 
     var user=auth.currentUser.uid.toString();
+    const [Historial, setHistorial]=useState();
+    const [UserInf, setUserInf]=useState();
 
     const PublicarCurso = async (Titulo, Materia, Horas, Dias, Presupuesto, descripcion, Preferencias, files) =>{
 
@@ -164,9 +167,58 @@ const Procesamiento = () => {
         return formattedToday;
     }
 
+    const Publicaciones = async () => {
+        var tranajos = [];
+        const ref = collection(db, 'Usuarios', user, 'Trabajos');
+        const date = await getDocs(ref);
+        // console.log('buscando pubs',user)
+        date.forEach((pubs)=>{
+            tranajos.push(pubs.data());
+        });
+
+        for (var i = 0; i < tranajos.length; i++) {
+            if (tranajos[i].Imagenes) {
+                var p = tranajos[i].Imagenes;
+                var p2 = darFormatoArrayImg(p);
+                // console.log(p2);
+                tranajos[i].imagenesFormateadas = p2;
+                // console.log(publicaciones[i]);
+            }
+        }
+
+
+        setHistorial(tranajos);
+    }
+
+    function darFormatoArrayImg(imgs) {
+        var arregloDeImagenes = [];
+        for (var i = 0; i < imgs.length; i++) {
+            var imagen = {
+                original: imgs[i],
+                thumbnail: imgs[i],
+            };
+            arregloDeImagenes.push(imagen);
+        }
+        //console.log(arregloDeImagenes);
+        return arregloDeImagenes;
+    }
+
+    const Perfil = async () => {
+        var tranajos = [];
+        const ref = doc(db, 'Usuarios', user);
+        const date = await getDoc(ref);
+        setUserInf(date.data())
+        // console.log('buscando perfil',date.data());
+    }
+
+
   return {
     PublicarCurso,
     PublicarTramite,
+    Publicaciones,
+    Historial,
+    Perfil,
+    UserInf,
   }
 }
 

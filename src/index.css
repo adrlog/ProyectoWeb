@@ -15,6 +15,7 @@
 }
 .targetaspublicas{
     margin-right: 10px;
+    min-width: 300px !important;
 }
 .HeaderPublic{
     background-color: #97bcc7;
@@ -66,4 +67,24 @@
 .imgMuroPerfil{
     height: 60px !important;
     width: 60px !important;
+}
+.botonesPagos{
+    border-radius: 25px;
+    background-color: #053d57;
+    color: white;
+}
+.Titulo{
+    border-radius: 25px;
+    background-color: #006884;
+    color: white
+}
+.avatarPagos{
+    width: 300px;
+    height: 300px;
+}
+
+.campodetallespago{
+    background-color: #97b1cc;
+    border-radius: 25px;
+    max-width: 700px;
 }

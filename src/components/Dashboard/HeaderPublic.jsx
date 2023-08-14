@@ -21,7 +21,7 @@ const HeaderPublic = () => {
         </Col>
         <Col md={1}>
         <Button variant="outline-light" 
-        href='/dashboard/publicaciones'
+        href='/dashboard/pagos'
         style={{border:'none'}}>
           Pagos
         </Button>
