@@ -88,3 +88,25 @@
     border-radius: 25px;
     max-width: 700px;
 }
+.buttoninit{
+    position: absolute; 
+    z-index: 100; 
+    border-radius: 5em; 
+    color:black; 
+    top: 5%; right: 5%;
+}
+.contenedorImgCarrusel{
+    height: 100vh;
+}
+.cardPay{
+    border-radius: 25px;
+    color: white;
+}
+.ImagenSolicitudesPanel{
+    max-width: 30vw;
+    max-height: 300px;
+}
+.imgImg{
+    max-width: 30vw;
+    max-height: 300px;
+}

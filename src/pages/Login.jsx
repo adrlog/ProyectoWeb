@@ -8,6 +8,11 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import logo from '../assets/logo.png';
 import { SubmitDataRegister } from "../config/firebase";
+import { Carousel } from "react-bootstrap";
+import img1 from "../assets/img/caruzel1.jpg"
+import img2 from "../assets/img/caruzel2.jpg"
+import img3 from "../assets/img/caruzel4.jpg"
+import img4 from "../assets/img/uaem3.jpg"
 
 const Login = () => {
 
@@ -18,7 +23,7 @@ const Login = () => {
     const [escuela, setEscuela]= useState("");
     const [carrera, setCarrera] = useState("");
     const [password2, setPassword2]= useState("");
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     const [register, setRegister] = useState(false);
     const [mensaje, setMensaje] = useState('');
 
@@ -130,9 +135,53 @@ const Login = () => {
 
     return (
         <>
-        <Button variant="primary" onClick={handleShow}>
-        Iniciar sesion
-        </Button>
+        <div>
+          <Carousel>
+            <Carousel.Item className="contenedorImgCarrusel">
+              <img
+                className="d-block }"
+                src={img1}
+                alt="First slide"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Carousel.Item>
+            <Carousel.Item className="contenedorImgCarrusel">
+              <img
+                className="d-block "
+                src={img2}
+                alt="Second slide"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Carousel.Item>
+            <Carousel.Item className="contenedorImgCarrusel">
+              <img
+                className="d-block  "
+                src={img3}
+                alt="Third slide"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Carousel.Item>
+            <Carousel.Item className="contenedorImgCarrusel">
+              <img
+                className="d-block  "
+                src={img4}
+                alt="Third slide"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Carousel.Item>
+          </Carousel>
+        </div>
+
+      <Container>
+        <Row>
+          <Col>
+          <Button variant="primary" onClick={handleShow} className="buttoninit">
+          <i className="fa-solid fa-user-plus"></i> Iniciar sesion
+          </Button>
+          </Col>
+        </Row>
+      </Container>
+
 
         <Modal 
             show={show} 

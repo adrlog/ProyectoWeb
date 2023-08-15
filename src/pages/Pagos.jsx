@@ -1,9 +1,12 @@
 import React from 'react'
 import VistaPagos from '../components/Pagos/VistaPagos'
+import PanelPagosProvider from '../context/PanelPagosProvider'
 
 const Pagos = () => {
   return (
-    <VistaPagos/>
+    <PanelPagosProvider>
+      <VistaPagos/>
+    </PanelPagosProvider>
   )
 }
 

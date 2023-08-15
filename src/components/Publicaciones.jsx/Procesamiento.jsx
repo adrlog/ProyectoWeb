@@ -8,7 +8,8 @@ import {
     updateDoc,
     where,
     serverTimestamp,
-    addDoc
+    addDoc,
+    arrayUnion
 } from "firebase/firestore";
 import {
     db,
@@ -60,7 +61,8 @@ const Procesamiento = () => {
                 Vistafecha,
                 Fecha:serverTimestamp(),
                 id:docRef.id,
-                Tipo:'Curso'
+                Tipo:'Curso',
+                idSolicita:user,
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -82,7 +84,8 @@ const Procesamiento = () => {
                 Vistafecha,
                 Fecha:serverTimestamp(),
                 id:docRef.id,
-                Tipo:'Curso'
+                Tipo:'Curso',
+                idSolicita:user,
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -124,7 +127,8 @@ const Procesamiento = () => {
                 Vistafecha,
                 Fecha:serverTimestamp(),
                 id:docRef.id,
-                Tipo:'Tramite'
+                Tipo:'Tramite',
+                idSolicita:user,
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -137,8 +141,6 @@ const Procesamiento = () => {
              await updateDoc(docRef, {
                 Titulo,
                 Departamento,
-                Horas,
-                Dias,
                 Presupuesto,
                 descripcion,
                 Preferencias,
@@ -146,7 +148,8 @@ const Procesamiento = () => {
                 Vistafecha,
                 Fecha:serverTimestamp(),
                 id:docRef.id,
-                Tipo:'Tramite'
+                Tipo:'Tramite',
+                idSolicita:user,
             }).then(async (res)=>{
                 const path = await getDoc(docRef);
                 console.log(path.data());
@@ -211,6 +214,16 @@ const Procesamiento = () => {
         // console.log('buscando perfil',date.data());
     }
 
+    const Postularme = async (docTrabajo)=>{
+        console.log(docTrabajo)
+       const WorkRef=doc(db,'Usuarios',docTrabajo.idSolicita,'Trabajos',docTrabajo.id);
+       await updateDoc(WorkRef,{
+        Postulados:arrayUnion(user)
+       });
+
+       return 'Postulado';
+    }
+
 
   return {
     PublicarCurso,
@@ -219,6 +232,7 @@ const Procesamiento = () => {
     Historial,
     Perfil,
     UserInf,
+    Postularme,
   }
 }
 

@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Publicar from "../pages/Publicar";
 import Dashboard from "../pages/Dashboard";
 import Pagos from '../pages/Pagos';
+import Panel from '../pages/Panel';
 
 
 export const router = createBrowserRouter([
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
                     {
                         path: "pagos",
                         element: <Pagos />,
+                    },
+                    {
+                        path: "postulaciones",
+                        element: <Panel />,
                     },
                 ],
             },

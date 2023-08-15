@@ -1,25 +1,52 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import user from '../../assets/defaultuser.jpg';
 import { PanelContext } from "../../context/PanelTrabajosProvider";
 import Procesamiento from '../Publicaciones.jsx/Procesamiento';
 import Comentarios from './Comentario';
+import CaruzelPanelPublic from './CaruzelPanelPublic';
 
 const PanelWorks = () => {
 
   const { docUsuario, docTrabajo, setState, State } = useContext (PanelContext);
   const { Perfil,
-    UserInf,} = Procesamiento();
+    UserInf, Postularme} = Procesamiento();
+  const [Cantidato,setCantidato]=useState(false);
+  const [Activefunction,setActivefunction]=useState(false);
+  const [Message,setMessage]=useState();
+
 
     useEffect(()=>{
       Perfil();
-    },[])
+    },[Activefunction]);
+
+    useEffect(()=>{
+      if(UserInf){
+        if(docTrabajo.Postulados){
+          // console.log(UserInf.id)
+          var candidatos=docTrabajo.Postulados
+          for(var i=0; i<candidatos.length; i++){
+            if(candidatos[i]==UserInf.id){
+              setCantidato(true);
+            }
+          }
+        }
+      }
+    },[UserInf]);
 
   // console.log(docUsuario);
   // console.log(docTrabajo);
 
   const regresar =()=>{
     setState(!State)
+  }
+
+  const postularse =async ()=>{
+    var res=await Postularme(docTrabajo);
+    if(res=='Postulado'){
+      setActivefunction(!Activefunction);
+      setMessage(res);
+    }
   }
 
   return (
@@ -85,6 +112,14 @@ const PanelWorks = () => {
                   <Col md={12}>Departamento de tramite: {docTrabajo.Departamento}</Col>
                   <Col md={12}>Descripcion completa: {docTrabajo.descripcion}</Col>
                   <Col md={12}>Presupuesto: {docTrabajo.Presupuesto}</Col>
+                  {
+                    Cantidato?(
+                      <Button variant='outline-info' disabled>Ya te has postulado</Button>
+                    ):(
+                      <Button variant='outline-info' onClick={postularse}>
+                        {Message?Message:'Postularme'}</Button>
+                    )
+                  }
                 </Row>
                 ):(
                 <Row className='fondoPanel'>
@@ -92,19 +127,32 @@ const PanelWorks = () => {
                   <Col md={12}>Descripcion completa: {docTrabajo.descripcion}</Col>
                   <Col md={12}>Horas al dia: {docTrabajo.Horas}</Col>
                   <Col md={12}>Materia: {docTrabajo.Materia}</Col>
+                  {
+                    Cantidato?(
+                      <Button variant='outline-info' disabled>Ya te has postulado</Button>
+                    ):(
+                      <Button variant='outline-info' onClick={postularse}>Postularme</Button>
+                    )
+                  }
                 </Row>
               )
             }
         </Container>
+        {
+          docTrabajo.Imagenes.length>0&&(
+          <Container className='mt-2'>
+            <Row>
+              <Col>
+              <center>
+                <CaruzelPanelPublic/>
+              </center>
+              </Col>
+            </Row>
+          </Container>
+          )
+        }
       </Col>
     </Row>
-    <Container>
-      <Row>
-        <Col>
-            {/* <Comentarios/> */}
-        </Col>
-      </Row>
-    </Container>
     </>
   )
 }

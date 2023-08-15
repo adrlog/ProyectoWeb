@@ -15,7 +15,8 @@ const Solicitar = () => {
       const snap = collection(db, 'Usuarios', doc.id, 'Trabajos');
       const pubs = await getDocs(snap);
       const dataDB = pubs.docs.map((item)=>item.data());
-      if(dataDB[0].Titulo){
+      if(dataDB.length>0){
+        // console.log(dataDB);
         Mostrar.push([dataDB,doc.data()]);
         // console.log(Mostrar)
         setPublicaciones(Mostrar);

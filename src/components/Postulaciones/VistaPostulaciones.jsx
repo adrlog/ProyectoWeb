@@ -1,14 +1,20 @@
-import { useContext, useEffect } from 'react'
-import { Button, Col, Row } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Button, Col, Container, Row } from 'react-bootstrap'
+import Procesamiento from '../Publicaciones.jsx/Procesamiento'
 import { logout } from "../../config/firebase"
 import user from '../../assets/defaultuser.jpg'
-import { PanelContext } from "../../context/PanelTrabajosProvider";
 
-const HeaderPublic = () => {
 
-  const { docUsuario, docTrabajo } = useContext (PanelContext);
+const VistaPostulaciones = () => {
+
+    const { Perfil, UserInf,} = Procesamiento();
+
+    useEffect(()=>{
+        Perfil();
+    },[])
 
   return (
+<>
     <div className='HeaderPublic'>
       <Row>
         <Col md={3}></Col>
@@ -55,22 +61,22 @@ const HeaderPublic = () => {
         </Col>
       </Row>
       {
-        docUsuario&&(
+        UserInf&&(
 
       <Row>
         <Col md={3}>
-        <img src={user} className='imagenHeaderPerfil' />
+        <img src={UserInf.imagen?UserInf.imagen:user} className='imagenHeaderPerfil' />
         </Col>
         <Col className='mt-5' md={4}>
         <Row>
           <Col className='titulosHeaderPublic'>
-          <h4>{docUsuario.nombre} </h4>
+          <h4>{UserInf.nombre} </h4>
           </Col>
         </Row>
         <Row>
-        <Col className='titulosHeaderPublic mt-3'>
-        <h1>{docTrabajo.Materia?docTrabajo.Materia:docTrabajo.Departamento}</h1>
-        </Col>
+          <Col className='titulosHeaderPublic mt-3'>
+          <h4>{UserInf.grupo} </h4>
+          </Col>
         </Row>
         </Col>
         <Col md={1}></Col>
@@ -80,9 +86,8 @@ const HeaderPublic = () => {
         className='titulosHeaderPublic mt-5'>
         <ul>
           <center>
-            <li><h4>{docUsuario.escuela} </h4></li>
-            <li><h4>{docUsuario.carrera}</h4></li>
-            <li><h4>{docTrabajo.Tipo}</h4></li>
+            <li><h4>{UserInf.escuela} </h4></li>
+            <li><h4>{UserInf.carrera}</h4></li>
           </center>
         </ul>
         </Col>
@@ -92,7 +97,13 @@ const HeaderPublic = () => {
         )
       }
     </div>
+    <Container>
+        <Row>
+            <Col className='bg-dark mt-3'>jola</Col>
+        </Row>
+    </Container>
+</>
   )
 }
 
-export default HeaderPublic
+export default VistaPostulaciones
