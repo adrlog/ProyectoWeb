@@ -51,7 +51,7 @@ const Muro = () => {
   Historial?Historial.map((item)=>(
 
     <Container onClick={()=>detailsAside(item)}>
-        <Col xs={12} className="mt-2 bg-light p-3">
+        <Col xs={12} className="mt-2 HeaderPublicaciones2 p-3">
           <div>
             <Row className="">
               <div className="imgModalPerfilContenedor">

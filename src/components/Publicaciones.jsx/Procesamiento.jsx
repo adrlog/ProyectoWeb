@@ -21,20 +21,25 @@ import {
     ref,
     uploadBytes
 } from "firebase/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Procesamiento = () => {
 
     var user=auth.currentUser.uid.toString();
     const [Historial, setHistorial]=useState();
     const [UserInf, setUserInf]=useState();
+    const [PostulacionesInf, setPostulacionesInf]=useState();
+
+    // useEffect(()=>{
+    //     Postulaciones();
+    // },[])
 
     const PublicarCurso = async (Titulo, Materia, Horas, Dias, Presupuesto, descripcion, Preferencias, files) =>{
 
         const docRef = await addDoc(collection(db, "Usuarios", user, "Trabajos"), {});
         var Imagenes=[];
         var fecha = new Date();
-        var Vistafecha = await darFormatoFecha(fecha);
+        var Vistafecha = darFormatoFecha(fecha);
 
         if (files) {
             for (var i = 0; i < files.length; i++) {
@@ -172,6 +177,8 @@ const Procesamiento = () => {
 
     const Publicaciones = async () => {
         var tranajos = [];
+        var Aux=[];
+        var Candidatos=[];
         const ref = collection(db, 'Usuarios', user, 'Trabajos');
         const date = await getDocs(ref);
         // console.log('buscando pubs',user)
@@ -189,7 +196,15 @@ const Procesamiento = () => {
             }
         }
 
-
+        for(var j=0; j<tranajos.length; j++){
+            if(tranajos[i].Postulados){
+                for(var index=0; index<Postulados.length; index++){
+                    Aux.push(Postulados[i])
+                }
+                Candidatos.push([Aux,tranajos[i]]);
+            }
+        }
+        console.log(Candidatos);
         setHistorial(tranajos);
     }
 
@@ -224,6 +239,25 @@ const Procesamiento = () => {
        return 'Postulado';
     }
 
+    const Postulaciones = async ()=>{
+        var evidencias=[];
+
+        const querySnapshot = await getDocs(collection(db, "Usuarios"));
+        for(var i=0; i<querySnapshot.docs.length; i++){
+            var Ref =querySnapshot.docs[i].data()['id'];
+            const Snapshot = await getDocs(collection(db, "Usuarios", Ref, 'Trabajos'));
+            for(var j=0; j<Snapshot.docs.length; j++){
+                if(Snapshot.docs[j].data()['Postulados']){
+                    if(Snapshot.docs[j].data()['Postulados'].includes(user)){
+                        evidencias.push([Snapshot.docs[j].data(),querySnapshot.docs[i].data()])
+                    }
+                }
+            }
+        }
+
+        setPostulacionesInf(evidencias);
+    }
+
 
   return {
     PublicarCurso,
@@ -233,6 +267,8 @@ const Procesamiento = () => {
     Perfil,
     UserInf,
     Postularme,
+    Postulaciones,
+    PostulacionesInf
   }
 }
 

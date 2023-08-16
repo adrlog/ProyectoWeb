@@ -1,17 +1,35 @@
-import React, { useEffect } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react'
+import { Button, Col, Container, Image, Row } from 'react-bootstrap'
 import Procesamiento from '../Publicaciones.jsx/Procesamiento'
 import { logout } from "../../config/firebase"
-import user from '../../assets/defaultuser.jpg'
-
+import userDefault from '../../assets/defaultuser.jpg'
+import { PostContext } from '../../context/PanelPostuladoProvider'
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import CarouselPanel from './CarouselPanel'
 
 const VistaPostulaciones = () => {
 
-    const { Perfil, UserInf,} = Procesamiento();
+    const {user, post, setActualizar, docUsuario, docTrabajo,
+        setdocUsuario, setdocTrabajo}=useContext(PostContext);  
+    
+    const[Detalles,setDetalles]=useState(false)
 
-    useEffect(()=>{
-        Perfil();
-    },[])
+        useEffect(()=>{
+            if(post){
+                console.log(post)
+            }
+        },[post])
+    
+    const PanelView =(us, pub)=>{
+        setActualizar(true);
+        setdocUsuario(us);
+        setdocTrabajo(pub);
+        setDetalles(!Detalles);
+    }
+
+    const Regresar=()=>{
+      setDetalles(!Detalles);
+    }
 
   return (
 <>
@@ -20,7 +38,7 @@ const VistaPostulaciones = () => {
         <Col md={3}></Col>
         <Col md={1}>
         <Button variant="outline-light" 
-        href='/dashboard/publicaciones'
+        href='/dashboard'
         style={{border:'none'}}>
           Inicio
         </Button>
@@ -61,21 +79,21 @@ const VistaPostulaciones = () => {
         </Col>
       </Row>
       {
-        UserInf&&(
+        user&&(
 
       <Row>
         <Col md={3}>
-        <img src={UserInf.imagen?UserInf.imagen:user} className='imagenHeaderPerfil' />
+        <img src={user.imagen?user.imagen:userDefault} className='imagenHeaderPerfil' />
         </Col>
         <Col className='mt-5' md={4}>
         <Row>
           <Col className='titulosHeaderPublic'>
-          <h4>{UserInf.nombre} </h4>
+          <h4>{user.nombre} </h4>
           </Col>
         </Row>
         <Row>
           <Col className='titulosHeaderPublic mt-3'>
-          <h4>{UserInf.grupo} </h4>
+          <h4>{user.grupo} </h4>
           </Col>
         </Row>
         </Col>
@@ -86,8 +104,8 @@ const VistaPostulaciones = () => {
         className='titulosHeaderPublic mt-5'>
         <ul>
           <center>
-            <li><h4>{UserInf.escuela} </h4></li>
-            <li><h4>{UserInf.carrera}</h4></li>
+            <li><h4>{user.escuela} </h4></li>
+            <li><h4>{user.carrera}</h4></li>
           </center>
         </ul>
         </Col>
@@ -97,11 +115,85 @@ const VistaPostulaciones = () => {
         )
       }
     </div>
-    <Container>
+
+    <Container className='mt-5'>
+      {
+        Detalles?(
+          <Row>
+            <Row className="bg-light p-1  rounded justify-content-center mt-2">
+              <Col xs={10} className="p-1 ">
+                <button
+                  onClick={Regresar}
+                  style={{ fontSize: "12px" }}
+                  className="w-100 btn btn-outline-secondary btn-sm"
+                >
+                  Regresar al panel "Mis Postulaciones"
+                </button>
+              </Col>
+            </Row>
+            <Container className='mt-4 bg-light p-3'>
+              <Row>
+                <Col className='ColInfSolicitudes'>
+                  <Container>
+                    <Row>
+                      <Col md={5} lg={3} className='colImgSolicitudes'>
+                        <Image src={docUsuario.imagen?docUsuario.imagen:userDefault} className='imagenAmigos'/>
+                      </Col>
+                      <Col md={1} lg={6} className='FechaNombreResponsive'>
+                        <h5>{docUsuario.nombre}</h5>
+                        <h6>{docTrabajo.Vistafecha}</h6>
+                      </Col>
+                      <Col md={12} lg={12} className='mt-4'>
+                        <h6>{docTrabajo.descripcion}</h6>
+                        <h6>${docTrabajo.Presupuesto}</h6>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Col>
+                <Col className='CaruselSolisResp'>
+                  <CarouselPanel/>
+                </Col>
+              </Row>
+            </Container>
+          </Row>
+
+          ):(
+
         <Row>
-            <Col className='bg-dark mt-3'>jola</Col>
+        {
+            post?post.map((item, i)=>
+            (
+                <Col className='border targetaspublicas mb-2' md={4}
+                onClick={()=>prev(item[1], item[0])}
+                key={i+item[0].Titulo} style={{borderRadius:'25px'}}>
+                    <Row className='mt-3'>
+                        <Col md={4}>
+                            <img src={userDefault} alt="" width='100px'/>
+                        </Col>
+                        <Col>
+                        <span>{item[1]&&item[1].nombre}</span>
+                        <br />
+                        <span>{item[0]&&item[0].Titulo}</span>
+                        </Col>
+                    </Row>
+                    <Row className='mb-3'>
+                        <Col>${item[0]&&item[0].Presupuesto} </Col>
+                        <Col><Button variant='outline-primary'
+                        onClick={()=>PanelView(item[1], item[0])}>saber mas ...</Button></Col>
+                    </Row>
+                </Col>
+            )):(
+              <Row>
+                <h3>Cargando Pubblicaciones ...</h3>
+                <ProgressBar animated now={75} />
+              </Row>
+            )
+        }
         </Row>
+        )
+      }
     </Container>
+
 </>
   )
 }

@@ -10,7 +10,7 @@ const AsidePubs = () => {
 
   return (
     
-    <Container className="bg-light mt-3 targetSolicitudes">
+    <Container className="HeaderPublicaciones2 mt-3 targetSolicitudes">
             <Row className="mt-1 pb-1 pt-1 m-1">
               <img
                 src={Detalles&&Detalles.image?Detalles.image:user}
@@ -35,6 +35,12 @@ const AsidePubs = () => {
                   {Detalles.Presupuesto}
                 </p>
               </Col>
+            </Row>
+
+            <Row className=" pb-1 pt-1 m-1">
+              <center>
+              <Col>Postulados</Col>
+              </center>
             </Row>
           </Container>
   

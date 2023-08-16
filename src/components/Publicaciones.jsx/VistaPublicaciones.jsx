@@ -10,7 +10,7 @@ const VistaPublicaciones = () => {
 
   return (
     <>        
-    <Row className='bg-light p-3'>
+    <Row className='p-3 HeaderPublicaciones'>
         <Col>
         <Container>
         <h1>
@@ -21,7 +21,7 @@ const VistaPublicaciones = () => {
         </Container>
         </Col>
         <Col>
-        <h1>Publicaciones</h1>
+        <h1 style={{color:'white'}}>Publicaciones</h1>
         </Col>
         <Col>
         </Col>
