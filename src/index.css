@@ -154,3 +154,11 @@
     height: 300px;
     border-radius: 250px;
 }
+.imgModalPerfil{
+    max-width: 180px;
+    max-height: 200px;
+}
+.imgModalEntrega{
+    max-width: 180px;
+    max-height: 200px;
+}

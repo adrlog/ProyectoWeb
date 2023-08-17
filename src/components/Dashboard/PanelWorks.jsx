@@ -5,6 +5,7 @@ import { PanelContext } from "../../context/PanelTrabajosProvider";
 import Procesamiento from '../Publicaciones.jsx/Procesamiento';
 import Comentarios from './Comentario';
 import CaruzelPanelPublic from './CaruzelPanelPublic';
+import carga from "../../assets/img/loading-cargando.gif"
 
 const PanelWorks = () => {
 
@@ -58,7 +59,7 @@ const PanelWorks = () => {
         <Container>
           <Row>
             <Col>
-              <img src={user}  className='imagenPanle'/>
+              <img src={UserInf?UserInf.imagen?UserInf.imagen:user:carga}  className='imagenPanle'/>
             </Col>
             <center className='mt-3'>
             <Col md={12}>{UserInf&&UserInf.nombre}</Col>
@@ -88,8 +89,8 @@ const PanelWorks = () => {
         </Row>
         <Container className='mt-3'>
         <Row className='fondoPanel'>
-          <Col md={3} className='mt-2 mb-2'>
-          <img src={user} className='imgPanelDescripcion'/>
+          <Col md={2} className='mt-2 mb-2'>
+          <img src={docUsuario?docUsuario.imagen?docUsuario.imagen:user:carga} className='imgPanelDescripcion'/>
           </Col>
           <Col className='mt-5' md={8}>
           <Row>

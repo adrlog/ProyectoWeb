@@ -220,7 +220,7 @@ const HacerPub = () => {
               >
                 <option value={''}></option>
                 <option value={'ServiciosEscolares'}>Servicios escolares</option>
-                <option value={'VinculacionEscolar'}>Vinculacion escolar</option>
+                <option value={'VinculacionEscolar'}>Vinculación escolar</option>
                 <option value={'Finanzas'}>Finanzas</option>
               </Form.Select>
             </Form.Group>

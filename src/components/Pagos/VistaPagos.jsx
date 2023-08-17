@@ -103,7 +103,7 @@ const VistaPagos = () => {
                 <div className='botonesPagos'>
                     <center>
                         <h2
-                        onClick={()=>cambiaVista('segundo')}>Ultimos movimientos</h2>
+                        onClick={()=>cambiaVista('segundo')}>Últimos movimientos</h2>
                     </center>
                 </div>
                 </Col>
@@ -164,7 +164,7 @@ const VistaPagos = () => {
                                 </Col>
                                 <Col md={3}>  
                                 <select className="form-select" name="select">
-                                    <option defaultValue value=''>Selecciona una opcio</option>
+                                    <option defaultValue value=''>Selecciona una opción</option>
                                     <option value="empresa">Empresa</option>
                                     <option value="negocio">Negocio</option>
                                 </select>                                  
@@ -185,7 +185,7 @@ const VistaPagos = () => {
                                     <span>
                                     Los servicios de procesamiento de pago para el socio de Rapi-Tex son proporcionados por Stripe y están sujetos al Acuerdo de cuentas
                                     conectadas de Stripe(Stripe Connected Account Aggreement), que incluye los Términos de servicio de Stripe (Stripe Terms of Service), en
-                                    conjunto, el "Acuerdo de servicio de Stripe" ("Stripe Services Agreement"). Al acptar estos términos o seguir operando como socio en Rapi-Tex,
+                                    conjunto, el "Acuerdo de servicio de Stripe" ("Stripe Services Agreement"). Al aceptar estos términos o seguir operando como socio en Rapi-Tex,
                                     usted acepta cumplir las obligaciones del Acuerdo de servicio de Stripe, que puede ser modificado por Stripe de tanto en tanto. Para que Tlati
                                     Digital pueda ofrecer servicios de procesamiento de pagos a través de Stripe, usted acepta proporcionar a Rapi-Tex información completa y
                                     exacta sobre usted y su negocio, y autoriza a Rapi-Tex a compartir dicha información y los datos de las transacciones relacionadas con el uso

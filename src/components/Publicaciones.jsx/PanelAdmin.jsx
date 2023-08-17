@@ -7,7 +7,9 @@ import Chat from './Chat';
 
 const PanelAdmin = () => {
 
-  const {Detalles, Vista, setVista,docUsuario}=useContext(PubsContext);
+  const {Detalles, Vista, setVista,docUsuario, Funsion}=useContext(PubsContext);
+
+  // console.log(docUsuario, 'panel admin')
 
   const Regresar=()=>{
     setVista(!Vista);
@@ -40,11 +42,29 @@ const PanelAdmin = () => {
                           <h5>{docUsuario.nombre}</h5>
                           <h6>{Detalles.Vistafecha}</h6>
                         </Col>
-                        <Col md={12} lg={12} className='mt-4'>
-                          <h6>{Detalles.descripcion}</h6>
-                          <h6>${Detalles.Presupuesto}</h6>
-                        </Col>
+                        {
+                          Detalles.Tipo!='Curso'?(
+                            <Row>
+                              <Col md={12} lg={12} className='mt-4'>
+                                <h6>Departamento de tramite: {Detalles.Departamento}</h6>
+                                <h6>Descripcion: {Detalles.descripcion}</h6>
+                                <h6>Presupuesto: ${Detalles.Presupuesto}</h6>
+                              </Col>
+                            </Row>
+                            ):(
+                            <Row>
+                              <Col md={12} lg={12} className='mt-4'>
+                                <h6>Solicita los dias: {Detalles.Dias}</h6>
+                                <h6>Descripcion: {Detalles.descripcion}</h6>
+                                <h6>Horas al dia: {Detalles.Horas}</h6>
+                                <h6>Materia: {Detalles.Materia}</h6>
+                                <h6>Presupuesto: ${Detalles.Presupuesto}</h6>
+                              </Col>
+                            </Row>
+                        )}
                       </Row>
+
+
                     </Container>
                   </Col>
                   {

@@ -1,21 +1,28 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { PubsContext } from '../../context/PanelPubsProvider'
-import { Button, ButtonGroup, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Alert, Button, ButtonGroup, Carousel, Col, Container, Modal, Row } from 'react-bootstrap';
 import user from '../../assets/defaultuser.jpg';
 import carga from "../../assets/img/loading-cargando.gif"
+import PagoPorEntrega from './PagoPorEntrega';
 
 const AsidePubs = () => {
 
-  const {Detalles, setFunsion, Vista, setVista, setforaneo}=useContext(PubsContext);
+  const {Detalles, setFunsion, Vista, setVista, setforaneo, setDetalles}=useContext(PubsContext);
   const [modalShow, setModalShow] = useState(false);
   const [Tarjet, setTarjet] = useState(false);
   const [Pubs, setPubs] = useState(false);
-
+  const [hidden, sethidden]=useState(false);
+  const {CalcularMontoPago, message,status, StateCancel} = PagoPorEntrega();
+  const {pagado, setpagado}=useState(false);
 
   const accion=(us, action)=>{
     setFunsion([us, action, Pubs]);
   }
 
+  useEffect(()=>{
+    return
+  },[pagado])
+  
   function MyVerticallyCenteredModal(props) {
 
     return (
@@ -65,6 +72,7 @@ const AsidePubs = () => {
     console.log(DocContent, pub)
     if(pub.Estado){
       setforaneo(DocContent);
+      setFunsion(true);
       setVista(!Vista)
     }else{
       //console.log(respuesta);
@@ -75,7 +83,71 @@ const AsidePubs = () => {
     }
   };
 
-  console.log(Detalles);
+  // console.log(Detalles);
+
+  const ConfirmarEntrega = (entrega, i)=>{
+    sethidden(true);
+    var numentregas=Detalles.aentregas.length;
+    var presupuesto=Detalles.Presupuesto;
+    var cantidad=(presupuesto-(presupuesto*5)/100)/numentregas;
+    const Evidencias = Detalles.aentregas;
+    var i=0;
+    var evi=[];
+    // console.log(numentregas);
+    Evidencias.map((item)=>{
+        if(item.entregado===true){
+            i++;
+            evi.push(item)
+        } 
+        // console.log(i);
+    })
+
+    if(i<=numentregas){
+        Swal.fire({
+            title: 'Aceptar entrega',
+            text:`Al aceptar la propuesta se transferira un cargo 
+            por la cantidad de $${cantidad.toFixed(2)} al trabajador
+             `,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Continuar'
+          }).then(async (result) => {  
+            if (result.isConfirmed) {
+                
+                entrega.entregado=true;
+                setpagado(true);
+                // var res= await CalcularMontoPago(Detalles);
+                StateCancel(Detalles, 'Finalizado', entrega);
+                
+            let timerInterval;
+                Swal.fire({
+                title: 'Confirmando entrega!',
+                html: 'transfiriendo al trabajador <b></b> Agradecemos su pasciencia.',
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                    b.textContent = message;
+                    }, 20)
+                }, 
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+                }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    // console.log('I was closed by the timer')
+                }
+                })
+                // setShow(true);
+            }
+          })
+    }
+}
 
 
   return (
@@ -83,8 +155,9 @@ const AsidePubs = () => {
       <Container className="HeaderPublicaciones2 mt-3 targetSolicitudes">
         <Row className="mt-1 pb-1 pt-1 m-1">
           <img
-            src={Detalles&&Detalles.Postulados?Detalles.Postulados.imagen?Detalles.Postulados.imagen:user:carga}
+            src={Detalles&&Detalles.Postulados?Detalles.Postulados[0].imagen?Detalles.Postulados[0].imagen:user:carga}
             alt=""
+            height='500px'
             className="rounded-circle p-0 me-1 ms-1 contenedorImgAmigosAside"
           />
           <Col xs={8}>
@@ -132,6 +205,122 @@ const AsidePubs = () => {
           onHide={() => setModalShow(false)}
         />
       </Container>
+
+    {
+      Vista&&(
+      <Container className="HeaderPublicaciones2 mt-3 targetSolicitudes">
+        <Row className="mt-1 pb-1 pt-1 m-1">
+          <Col>
+          {
+            Detalles?Detalles.aentregas.map((entrega, i)=>(
+            <Container key={i}> 
+                <Row>
+                    <Col className='bgentregassub mt-4 mb-3 contentEntregas' 
+                    style={{borderRadius:'15px'}}>
+                        <center>
+                        <div>Entrega {i+1}  </div>
+                        <div className='mt-2'>{entrega.descripcion} </div>
+                        </center>
+                        {
+                            entrega.imagenes!=''
+                            &&(
+                                <Container className='mb-3 ImagenEntregaResponsive'> 
+                                    <Row>
+                                        <Col className='responsiveSolis'></Col>
+                                        <Col>
+                                    
+                                    <Carousel className='ImagenEntregas'>
+
+                                {
+                                    entrega.imagenes.map((img, i)=>(
+                                        <Carousel.Item key={i} className='imgImg'>
+                                            
+                                            <img
+                                            className="d-block w-100"
+                                            src={img}
+                                            alt="First slide"
+                                            width='50px'
+                                            />
+                                            
+                                        </Carousel.Item>
+                                    )
+                                    )
+                                }
+
+                                    </Carousel>
+                                  
+                                        </Col>
+                                        <Col className='responsiveSolis'></Col>
+                                    </Row>
+                                </Container>
+                            )
+                            
+                        }
+                        {
+                            entrega.documento!=''&&(
+                                <Container className='mb-3 mt-3'>
+                                    <center>
+                                    <a href={entrega.documento} target="_blank"
+                                    className="btn btn-primary">
+                                    <i className="fa-solid fa-file-pdf"></i>
+                                    {' '}{entrega.nombreDocumento}
+                                    </a>
+                                    </center>
+                                </Container>
+                            )
+                        }
+                        {
+                            entrega.video!=''&&(
+                                <video
+                                    src={entrega.video}
+                                    className="d-block w-100 mb-3"
+                                    controls
+                                ></video>
+                            )
+                        }
+                        {
+                            entrega.entregado!=true?(
+                                <div className="d-grid gap-2">
+                                <center>
+                                    {
+                                        !hidden?(
+                                            <Button variant='outline-success' size="lg"
+                                            onClick={()=> ConfirmarEntrega(entrega, i)}
+                                            className='mb-3'>
+                                                Confirmar entrega
+                                            </Button>
+                                        ):(
+                                            <Button variant='outline-success' size="lg"
+                                            disabled
+                                            className='mb-3'>
+                                                Confirmar entrega
+                                            </Button>
+                                        )
+                                    }
+                                </center>
+                              </div>
+                            ):(
+                            <Container className='mt-3'>
+                                <Alert variant='success'>
+                                    <center>
+                                        Entrega confirmada
+                                    </center>
+                                </Alert>
+                            </Container>
+                            )
+                        }
+                    </Col>
+                </Row>
+                
+            </Container>
+            )):('')
+            }
+          </Col>
+        </Row>
+          
+      </Container>
+      )
+    }
     </>
   )
 }

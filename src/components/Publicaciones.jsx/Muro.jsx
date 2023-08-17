@@ -11,7 +11,7 @@ import PanelAdmin from './PanelAdmin';
 
 const Muro = () => {
 
-  const {Detalles, setDetalles, Vista, setVista}=useContext(PubsContext);
+  const {Detalles, setDetalles, Vista}=useContext(PubsContext);
   const { Publicaciones, Historial, Perfil, UserInf, proceso } = Procesamiento();
 
   useEffect(()=>{
@@ -130,12 +130,6 @@ const Muro = () => {
                 ) : (
                   ""
                 )}
-      
-                {/* <img
-                  className="img-fluid "
-                  src={user}
-                  alt=""
-                /> */}
               </Col>
             </Row>
           </div>

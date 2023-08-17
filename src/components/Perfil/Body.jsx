@@ -156,7 +156,7 @@ const Body = () => {
                     />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="register.Mensaje">
-                    <Form.Label>Mensaje de presentacion</Form.Label>
+                    <Form.Label>Mensaje de presentación</Form.Label>
                     <Form.Control
                         name='mensaje'
                         style={{backgroundColor:'#4b5866', color:'white'}}

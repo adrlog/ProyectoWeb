@@ -20,7 +20,7 @@ const Historial = () => {
           style={{ fontSize: "12px" }}
           className="w-100 btn btn-outline-secondary btn-sm"
         >
-          Crear una publicacion
+          Crear una publicación
         </button>
       </Col>
     </Row>

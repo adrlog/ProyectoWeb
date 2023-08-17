@@ -58,7 +58,7 @@ const Targetas = () => {
                 </Col>
                 
             )):(
-                <h3>Cargando Pubblicaciones ...</h3>
+                <h3>Cargando Publicaciones ...</h3>
             )
         }
         </Row>

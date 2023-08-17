@@ -8,6 +8,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import CarouselPanel from './CarouselPanel'
 import Chat from './Chat'
 import carga from '../../assets/img/loading-cargando.gif'
+import Entregas from './Entregas'
 
 const VistaPostulaciones = () => {
 
@@ -147,10 +148,26 @@ const VistaPostulaciones = () => {
                         <h5>{docUsuario.nombre}</h5>
                         <h6>{docTrabajo.Vistafecha}</h6>
                       </Col>
-                      <Col md={12} lg={12} className='mt-4'>
-                        <h6>{docTrabajo.descripcion}</h6>
-                        <h6>${docTrabajo.Presupuesto}</h6>
-                      </Col>
+                      {
+                          docTrabajo.Tipo!='Curso'?(
+                            <Row>
+                              <Col md={12} lg={12} className='mt-4'>
+                                <h6>Departamento de tramite: {docTrabajo.Departamento}</h6>
+                                <h6>Descripcion: {docTrabajo.descripcion}</h6>
+                                <h6>Presupuesto: ${docTrabajo.Presupuesto}</h6>
+                              </Col>
+                            </Row>
+                            ):(
+                            <Row>
+                              <Col md={12} lg={12} className='mt-4'>
+                                <h6>Solicita los dias: {docTrabajo.Dias}</h6>
+                                <h6>Descripcion: {docTrabajo.descripcion}</h6>
+                                <h6>Horas al dia: {docTrabajo.Horas}</h6>
+                                <h6>Materia: {docTrabajo.Materia}</h6>
+                                <h6>Presupuesto: ${docTrabajo.Presupuesto}</h6>
+                              </Col>
+                            </Row>
+                        )}
                     </Row>
                   </Container>
                 </Col>
@@ -169,7 +186,11 @@ const VistaPostulaciones = () => {
               <Row>
                 {
                   docTrabajo.Estado?(
-                    <Chat/>
+                    <Row>
+                      <Col md={8}><Chat/></Col>
+                      <Col><Entregas/></Col>
+                    </Row>
+                    
                   ):(
                     <Alert variant='info'>
                       <center>

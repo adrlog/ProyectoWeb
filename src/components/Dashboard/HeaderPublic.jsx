@@ -58,8 +58,8 @@ const HeaderPublic = () => {
         docUsuario&&(
 
       <Row>
-        <Col md={3}>
-        <img src={user} className='imagenHeaderPerfil' />
+        <Col md={2}>
+        <img src={docUsuario?docUsuario.imagen?docUsuario.imagen:user:carga} height='190px' className='imagenHeaderPerfil' />
         </Col>
         <Col className='mt-5' md={4}>
         <Row>

@@ -54,13 +54,22 @@ const Chat = () => {
   <>
     <Alert variant="info">
         <Row>
-            <Col md={4}>
+            <Col md={1}>
             <img src={foraneo.imagen?foraneo.imagen:userDefault} className="imagenAmigos" />
             </Col>
             <Col>
+            <Row>
+            <Col md={12}>
             <h2>
             {foraneo.nombre}
             </h2>
+            </Col>
+            <Col>
+            <h6>
+            {foraneo.mensaje}
+            </h6>
+            </Col>
+            </Row>
             </Col>
         </Row>
     </Alert>
