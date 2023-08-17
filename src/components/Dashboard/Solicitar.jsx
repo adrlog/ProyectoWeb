@@ -10,18 +10,19 @@ const Solicitar = () => {
     var Mostrar = [];
     const q = collection(db, 'Usuarios');
     const users = await getDocs(q);
-    users.forEach(async (doc)=>{
-      
-      const snap = collection(db, 'Usuarios', doc.id, 'Trabajos');
+    
+    for(var i=0; i<users.docs.length; i++){
+      const snap = collection(db, 'Usuarios', users.docs[i].data()['id'], 'Trabajos');
       const pubs = await getDocs(snap);
-      const dataDB = pubs.docs.map((item)=>item.data());
-      if(dataDB.length>0){
-        // console.log(dataDB);
-        Mostrar.push([dataDB,doc.data()]);
-        // console.log(Mostrar)
-        setPublicaciones(Mostrar);
+      for(var j=0; j<pubs.docs.length; j++){
+        if(!pubs.docs[j].data()['Estado']){
+          // console.log(pubs.docs[j].data(),'hola desde prueba')
+          Mostrar.push([pubs.docs[j].data(),users.docs[i].data()]);
+        }
       }
-    })
+    }
+    console.log(Mostrar,'hola desde prueba');
+    setPublicaciones(Mostrar);
 
 
   }

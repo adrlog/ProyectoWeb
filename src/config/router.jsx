@@ -7,6 +7,7 @@ import Publicar from "../pages/Publicar";
 import Dashboard from "../pages/Dashboard";
 import Pagos from '../pages/Pagos';
 import Panel from '../pages/Panel';
+import Perfil from "../pages/Perfil";
 
 
 export const router = createBrowserRouter([
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
                     {
                         path: "postulaciones",
                         element: <Panel />,
+                    },
+                    {
+                        path: "perfil",
+                        element: <Perfil />,
                     },
                 ],
             },

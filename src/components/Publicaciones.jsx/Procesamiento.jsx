@@ -9,7 +9,7 @@ import {
     where,
     serverTimestamp,
     addDoc,
-    arrayUnion
+    arrayUnion, arrayRemove
 } from "firebase/firestore";
 import {
     db,
@@ -28,6 +28,7 @@ const Procesamiento = () => {
     var user=auth.currentUser.uid.toString();
     const [Historial, setHistorial]=useState();
     const [UserInf, setUserInf]=useState();
+    const [proceso, setproceso]=useState(false);
     const [PostulacionesInf, setPostulacionesInf]=useState();
 
     // useEffect(()=>{
@@ -176,9 +177,10 @@ const Procesamiento = () => {
     }
 
     const Publicaciones = async () => {
+
         var tranajos = [];
-        var Aux=[];
         var Candidatos=[];
+
         const ref = collection(db, 'Usuarios', user, 'Trabajos');
         const date = await getDocs(ref);
         // console.log('buscando pubs',user)
@@ -187,6 +189,7 @@ const Procesamiento = () => {
         });
 
         for (var i = 0; i < tranajos.length; i++) {
+
             if (tranajos[i].Imagenes) {
                 var p = tranajos[i].Imagenes;
                 var p2 = darFormatoArrayImg(p);
@@ -194,17 +197,21 @@ const Procesamiento = () => {
                 tranajos[i].imagenesFormateadas = p2;
                 // console.log(publicaciones[i]);
             }
-        }
 
-        for(var j=0; j<tranajos.length; j++){
             if(tranajos[i].Postulados){
-                for(var index=0; index<Postulados.length; index++){
-                    Aux.push(Postulados[i])
+                for(var index=0; index<tranajos[i].Postulados.length; index++){
+                   var candidato = tranajos[i].Postulados[index];
+                   const refCan = doc(db, 'Usuarios', candidato);
+                   const worker = await getDoc(refCan);
+                   Candidatos.push(worker.data());
+
                 }
-                Candidatos.push([Aux,tranajos[i]]);
+                tranajos[i].Postulados=Candidatos;
+                Candidatos=[];
             }
         }
-        console.log(Candidatos);
+        console.log(tranajos);
+        setproceso(!proceso)
         setHistorial(tranajos);
     }
 
@@ -222,11 +229,11 @@ const Procesamiento = () => {
     }
 
     const Perfil = async () => {
-        var tranajos = [];
+
         const ref = doc(db, 'Usuarios', user);
         const date = await getDoc(ref);
         setUserInf(date.data())
-        // console.log('buscando perfil',date.data());
+        console.log('buscando perfil',date.data());
     }
 
     const Postularme = async (docTrabajo)=>{
@@ -258,6 +265,24 @@ const Procesamiento = () => {
         setPostulacionesInf(evidencias);
     }
 
+    const ActualizarPostulados =async (datos)=>{
+        if(datos[1]=='descartar'){
+            console.log('borrar usuario', datos);
+            const ref=doc(db, 'Usuarios', datos[2].idSolicita, 'Trabajos', datos[2].id);
+            await updateDoc(ref,{
+                Postulados:arrayRemove(datos[0].id)
+            })
+        }
+        if(datos[1]=='aceptar'){
+            console.log('borrar todos los usuarios y cambiar estado', datos);
+            const ref=doc(db, 'Usuarios', datos[2].idSolicita, 'Trabajos', datos[2].id);
+            await updateDoc(ref,{
+                Postulados:[datos[0].id],
+                Estado:'En proceso'
+            })
+        }
+    }
+
 
   return {
     PublicarCurso,
@@ -268,7 +293,8 @@ const Procesamiento = () => {
     UserInf,
     Postularme,
     Postulaciones,
-    PostulacionesInf
+    PostulacionesInf,
+    ActualizarPostulados
   }
 }
 

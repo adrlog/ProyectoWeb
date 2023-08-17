@@ -126,3 +126,31 @@
     width: 80px;
     height: 80px;
 }
+.imgPostulados{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.HedreModal{
+    background-color: #053d57;
+    color: white;
+}
+.tarjetmodal{
+    max-width: 500px;
+    max-height: 400px;
+    top: 20%; left: 30%;
+}
+.Comentarios{
+    margin-right: 25%;
+    max-height: 50vh;
+}
+.filesChat{
+    margin-top: 5px;
+    max-width: 300px;
+    max-height: 30vh;
+}
+.userPerfil{
+    width: 300px;
+    height: 300px;
+    border-radius: 250px;
+}

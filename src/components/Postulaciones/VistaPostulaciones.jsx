@@ -6,6 +6,7 @@ import userDefault from '../../assets/defaultuser.jpg'
 import { PostContext } from '../../context/PanelPostuladoProvider'
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import CarouselPanel from './CarouselPanel'
+import Chat from './Chat'
 
 const VistaPostulaciones = () => {
 
@@ -65,7 +66,7 @@ const VistaPostulaciones = () => {
         </Col>
         <Col md={1}>
         <Button variant="outline-light" 
-        href='/dashboard/publicaciones'
+        href='/dashboard/perfil'
         style={{border:'none'}}>
           Perfil
         </Button>
@@ -120,7 +121,7 @@ const VistaPostulaciones = () => {
       {
         Detalles?(
           <Row>
-            <Row className="bg-light p-1  rounded justify-content-center mt-2">
+            <Row className="p-1  rounded justify-content-center mt-2">
               <Col xs={10} className="p-1 ">
                 <button
                   onClick={Regresar}
@@ -131,7 +132,7 @@ const VistaPostulaciones = () => {
                 </button>
               </Col>
             </Row>
-            <Container className='mt-4 bg-light p-3'>
+            <Container className='mt-4 HeaderPublicaciones2 p-3'>
               <Row>
                 <Col className='ColInfSolicitudes'>
                   <Container>
@@ -150,12 +151,30 @@ const VistaPostulaciones = () => {
                     </Row>
                   </Container>
                 </Col>
-                <Col className='CaruselSolisResp'>
-                  <CarouselPanel/>
-                </Col>
+                {
+                  docTrabajo.Imagenes.length>0?(
+                    <Col className='CaruselSolisResp'>
+                      <CarouselPanel/>
+                    </Col>
+                  ):(
+                    <Col></Col>
+                  )
+                }
+              </Row>
+            </Container>
+            <Container className='mt-5'>
+              <Row>
+                {
+                  docTrabajo.Estado?(
+                    <Chat/>
+                  ):('esperando confirmacion')
+                }
               </Row>
             </Container>
           </Row>
+
+          
+          
 
           ):(
 
@@ -163,8 +182,7 @@ const VistaPostulaciones = () => {
         {
             post?post.map((item, i)=>
             (
-                <Col className='border targetaspublicas mb-2' md={4}
-                onClick={()=>prev(item[1], item[0])}
+                <Col className='border  mb-2' md={3}
                 key={i+item[0].Titulo} style={{borderRadius:'25px'}}>
                     <Row className='mt-3'>
                         <Col md={4}>

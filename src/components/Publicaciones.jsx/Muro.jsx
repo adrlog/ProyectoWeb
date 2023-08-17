@@ -4,20 +4,21 @@ import { Col, Row, Modal, Dropdown, Container } from 'react-bootstrap';
 import Procesamiento from './Procesamiento';
 import ReactImageGallery from 'react-image-gallery';
 import { PubsContext } from '../../context/PanelPubsProvider'
+import PanelAdmin from './PanelAdmin';
 
 
 // import LinearScaleIcon from "@mui/icons-material/LinearScale";
 
 const Muro = () => {
 
-  const {Detalles, setDetalles}=useContext(PubsContext);
-  const { Publicaciones, Historial, Perfil, UserInf } = Procesamiento();
+  const {Detalles, setDetalles, Vista, setVista}=useContext(PubsContext);
+  const { Publicaciones, Historial, Perfil, UserInf, proceso } = Procesamiento();
 
   useEffect(()=>{
-    console.log('ejecutando')
+    // console.log('ejecutando');
     Publicaciones();
     Perfil();
-  },[])
+  },[proceso])
   
   // console.log(Historial);
 
@@ -48,9 +49,10 @@ const Muro = () => {
         </Col>
 
 {
+  !Vista?(
   Historial?Historial.map((item)=>(
 
-    <Container onClick={()=>detailsAside(item)}>
+    <Container onClick={()=>detailsAside(item)} key={item.Vistafecha}>
         <Col xs={12} className="mt-2 HeaderPublicaciones2 p-3">
           <div>
             <Row className="">
@@ -142,6 +144,9 @@ const Muro = () => {
   )):(
     'Aun no tienes publicaciones'
     )
+  ):(
+    <PanelAdmin/>
+  )
 }
     </Row>
   )

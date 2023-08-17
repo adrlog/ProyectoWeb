@@ -13,7 +13,7 @@ const PanelWorks = () => {
     UserInf, Postularme} = Procesamiento();
   const [Cantidato,setCantidato]=useState(false);
   const [Activefunction,setActivefunction]=useState(false);
-  const [Message,setMessage]=useState();
+  const [Message,setMessage]=useState(false);
 
 
     useEffect(()=>{
@@ -42,10 +42,10 @@ const PanelWorks = () => {
   }
 
   const postularse =async ()=>{
+    setMessage(!Message);
     var res=await Postularme(docTrabajo);
     if(res=='Postulado'){
       setActivefunction(!Activefunction);
-      setMessage(res);
     }
   }
 
@@ -116,8 +116,11 @@ const PanelWorks = () => {
                     Cantidato?(
                       <Button variant='outline-info' disabled>Ya te has postulado</Button>
                     ):(
-                      <Button variant='outline-info' onClick={postularse}>
-                        {Message?Message:'Postularme'}</Button>
+                      Message?(
+                        <Button variant='outline-info' disabled>Ya te has postulado</Button>
+                      ):(
+                        <Button variant='outline-info' onClick={postularse}>Postularme</Button>
+                      )
                     )
                   }
                 </Row>
@@ -131,7 +134,11 @@ const PanelWorks = () => {
                     Cantidato?(
                       <Button variant='outline-info' disabled>Ya te has postulado</Button>
                     ):(
-                      <Button variant='outline-info' onClick={postularse}>Postularme</Button>
+                      Message?(
+                        <Button variant='outline-info' disabled>Ya te has postulado</Button>
+                      ):(
+                        <Button variant='outline-info' onClick={postularse}>Postularme</Button>
+                      )
                     )
                   }
                 </Row>

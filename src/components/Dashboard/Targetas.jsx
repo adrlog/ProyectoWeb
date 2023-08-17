@@ -37,10 +37,9 @@ const Targetas = () => {
             <Row>
             {Publicaciones[0]?Publicaciones.map((item, i)=>
             (
-                item[0].map((pub)=>(
-                <Col className='border targetaspublicas mb-2' 
-                onClick={()=>prev(item[1], pub)} 
-                key={i+pub.Titulo} style={{borderRadius:'25px'}}>
+              <Col className='border targetaspublicas mb-2' 
+                onClick={()=>prev(item[1], item[0])} 
+                key={i+item[0].Titulo} style={{borderRadius:'25px'}}>
                     <Row className='mt-3'>
                         <Col md={4}>
                             <img src={user} alt="" width='100px'/>
@@ -48,16 +47,16 @@ const Targetas = () => {
                         <Col>
                         <span>{item[1]&&item[1].nombre}</span>
                         <br />
-                        <span>{pub&&pub.Titulo}</span>
+                        <span>{item[0]&&item[0].Titulo}</span>
                         </Col>
                     </Row>
                     <Row className='mb-3'>
-                        <Col>${pub&&pub.Presupuesto} </Col>
+                        <Col>${item[0]&&item[0].Presupuesto} </Col>
                         <Col><Button variant='outline-primary'
-                        onClick={()=>PanelView(item[1], pub)}>saber mas ...</Button></Col>
+                        onClick={()=>PanelView(item[1], item[0])}>saber mas ...</Button></Col>
                     </Row>
                 </Col>
-                ))
+                
             )):(
                 <h3>Cargando Pubblicaciones ...</h3>
             )
