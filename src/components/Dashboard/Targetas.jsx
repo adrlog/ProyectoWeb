@@ -42,7 +42,7 @@ const Targetas = () => {
                 key={i+item[0].Titulo} style={{borderRadius:'25px'}}>
                     <Row className='mt-3'>
                         <Col md={4}>
-                            <img src={user} alt="" width='100px'/>
+                            <img src={item[1]&&item[1].imagen?item[1].imagen:user} alt="" width='100px' height='102px'/>
                         </Col>
                         <Col>
                         <span>{item[1]&&item[1].nombre}</span>

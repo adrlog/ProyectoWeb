@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { PubsContext } from '../../context/PanelPubsProvider'
 import { Button, ButtonGroup, Col, Container, Modal, Row } from 'react-bootstrap';
 import user from '../../assets/defaultuser.jpg';
+import carga from "../../assets/img/loading-cargando.gif"
 
 const AsidePubs = () => {
 
@@ -74,13 +75,15 @@ const AsidePubs = () => {
     }
   };
 
+  console.log(Detalles);
+
 
   return (
     <>
       <Container className="HeaderPublicaciones2 mt-3 targetSolicitudes">
         <Row className="mt-1 pb-1 pt-1 m-1">
           <img
-            src={Detalles&&Detalles.image?Detalles.image:user}
+            src={Detalles&&Detalles.Postulados?Detalles.Postulados.imagen?Detalles.Postulados.imagen:user:carga}
             alt=""
             className="rounded-circle p-0 me-1 ms-1 contenedorImgAmigosAside"
           />

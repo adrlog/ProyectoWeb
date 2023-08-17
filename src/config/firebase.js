@@ -3,9 +3,10 @@ import { getAuth,
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword,
     signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import {
-    getStorage,
+    getDownloadURL,
+    getStorage, ref, uploadBytes,
 } from "firebase/storage";
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -50,7 +51,7 @@ export const SubmitDataRegister = async (email, password, nombre, grupo, escuela
 export async function actualizaTodo(datos, file) {
     //console.log(datos);
     const mensaje = datos.mensaje;
-    const userName = datos.nombre
+    const nombre = datos.nombre
     //console.log(file)
     var url = ""
 
@@ -60,9 +61,13 @@ export async function actualizaTodo(datos, file) {
         url = await getDownloadURL(storageref)
         const update = doc(db, "Usuarios", auth.currentUser.uid.toString());
         const resp = await updateDoc(update, {
-            image: url,
+            imagen: url,
             mensaje: datos.mensaje,
-            userName: datos.nombre
+            nombre: datos.nombre,
+            email: datos.email,
+            escuela: datos.escuela,
+            carrera: datos.carrera,
+            grupo: datos.grupo
         });
 
     } else {
@@ -70,7 +75,11 @@ export async function actualizaTodo(datos, file) {
         const update = doc(db, "Usuarios", auth.currentUser.uid.toString());
         const resp = await updateDoc(update, {
             mensaje: datos.mensaje,
-            userName: datos.nombre
+            nombre: datos.nombre,
+            email: datos.email,
+            escuela: datos.escuela,
+            carrera: datos.carrera,
+            grupo: datos.grupo
         });
     }
     //console.log("saliendo update")

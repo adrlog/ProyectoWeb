@@ -58,7 +58,7 @@ const Muro = () => {
             <Row className="">
               <div className="imgModalPerfilContenedor">
                 <img
-                  src={UserInf.Image?UserInf.Image:user}
+                  src={UserInf.imagen?UserInf.imagen:user}
                   alt=""
                   className="imgMuroPerfil rounded-circle"
                 />

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, Container, Image, Row } from 'react-bootstrap'
+import { Alert, Button, Col, Container, Image, Row } from 'react-bootstrap'
 import Procesamiento from '../Publicaciones.jsx/Procesamiento'
 import { logout } from "../../config/firebase"
 import userDefault from '../../assets/defaultuser.jpg'
@@ -7,6 +7,7 @@ import { PostContext } from '../../context/PanelPostuladoProvider'
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import CarouselPanel from './CarouselPanel'
 import Chat from './Chat'
+import carga from '../../assets/img/loading-cargando.gif'
 
 const VistaPostulaciones = () => {
 
@@ -31,6 +32,8 @@ const VistaPostulaciones = () => {
     const Regresar=()=>{
       setDetalles(!Detalles);
     }
+
+    console.log(post);
 
   return (
 <>
@@ -83,8 +86,8 @@ const VistaPostulaciones = () => {
         user&&(
 
       <Row>
-        <Col md={3}>
-        <img src={user.imagen?user.imagen:userDefault} className='imagenHeaderPerfil' />
+        <Col md={2}>
+        <img src={user?user.imagen?user.imagen:userDefault:carga} height='200px' className='imagenHeaderPerfil' />
         </Col>
         <Col className='mt-5' md={4}>
         <Row>
@@ -167,7 +170,13 @@ const VistaPostulaciones = () => {
                 {
                   docTrabajo.Estado?(
                     <Chat/>
-                  ):('esperando confirmacion')
+                  ):(
+                    <Alert variant='info'>
+                      <center>
+                      esperando confirmacion
+                      </center>
+                    </Alert>
+                  )
                 }
               </Row>
             </Container>
@@ -186,7 +195,7 @@ const VistaPostulaciones = () => {
                 key={i+item[0].Titulo} style={{borderRadius:'25px'}}>
                     <Row className='mt-3'>
                         <Col md={4}>
-                            <img src={userDefault} alt="" width='100px'/>
+                            <img src={item[1]&&item[1].imagen?item[1].imagen:userDefault} alt="" width='100px' height='102px'/>
                         </Col>
                         <Col>
                         <span>{item[1]&&item[1].nombre}</span>
