@@ -219,8 +219,8 @@ const HacerPub = () => {
                 onChange={(e)=>setDepartamento(e.target.value)}
               >
                 <option value={''}></option>
-                <option value={'ServiciosEscolares'}>Servicios escolares</option>
-                <option value={'VinculacionEscolar'}>Vinculación escolar</option>
+                <option value={'Servicios Escolares'}>Servicios escolares</option>
+                <option value={'Vinculacion Escolar'}>Vinculación escolar</option>
                 <option value={'Finanzas'}>Finanzas</option>
               </Form.Select>
             </Form.Group>

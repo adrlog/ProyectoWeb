@@ -30,7 +30,7 @@ const Procesamiento = () => {
     const [UserInf, setUserInf]=useState();
     const [proceso, setproceso]=useState(false);
     const [PostulacionesInf, setPostulacionesInf]=useState();
-
+    const [tarjetas, setTarjetas]=useState();
     // useEffect(()=>{
     //     Postulaciones();
     // },[])
@@ -283,6 +283,82 @@ const Procesamiento = () => {
         }
     }
 
+    const guardarIntencionPago = async (date)=>{
+  
+        const docRef = await addDoc(
+          collection(db, "Stripe-Custom", user,"payments"), {
+      
+            amount: date.amount,
+            amount_capturable: date.amount_capturable,
+            amount_details: date.amount_details,
+            amount_received: date.amount_received,
+            application:date.application,
+            application_fee_amount: date.application_fee_amount,
+            automatic_payment_methods: date.automatic_payment_methods,
+            canceled_at: date.canceled_at,
+            cancellation_reason:date.cancellation_reason,
+            capture_method:date.capture_method,
+            client_secret: date.client_secret,
+            confirmation_method: date.confirmation_method,
+            created: date.created,
+            currency: date.currency,
+            customer: date.customer,
+            description: date.description,
+            id: date.id,
+            invoice: date.invoice,
+            last_payment_error: date.last_payment_error,
+            latest_charge: date.latest_charge,
+            livemode: date.livemode,
+            metadata: date.metadata,
+            next_action:date.next_action,
+            object:date.object,
+            on_behalf_of:date.on_behalf_of,
+            payment_method: date.payment_method,
+            payment_method_options: date.payment_method_options,
+            payment_method_types:date.payment_method_types,
+            processing: date.processing,
+            receipt_email: date.receipt_email,
+            review: date.review,
+            setup_future_usage: date.setup_future_usage,
+            shipping: date.shipping,
+            source: date.source,
+            statement_descriptor: date.statement_descriptor,
+            statement_descriptor_suffix:date.statement_descriptor_suffix,
+            status:date.status,
+            transfer_data:date.transfer_data,
+            transfer_group:date.transfer_group,
+      
+        });
+        // console.log("Document written with ID: ", docRef.id);
+        return docRef.id
+      }
+
+      const GuardarMetodoPago=async (data)=>{
+        const docRef = await addDoc(
+          collection(db, "Stripe-Custom", user,"payment_methods"), {
+            billing_details:data.billing_details,
+            card:data.card,
+            created: data.created,
+            customer:data.customer,
+            id: data.id,
+            livemode: data.livemode,
+            object: data.object,
+            type: data.type 
+        });
+        // console.log("Document written with ID: ", docRef.id);
+      }
+
+      const Tarjetas = async ()=>{
+        const q = collection(db, "Stripe-Custom", user,"payment_methods");
+        const querySnapshot = await getDocs(q);
+    
+        if(querySnapshot.docs.length>0){
+          const dataDB=querySnapshot.docs.map((doc)=>doc.data());
+          setTarjetas(dataDB);
+        } else{
+          setTarjetas(null);
+        }
+      }
 
   return {
     PublicarCurso,
@@ -294,7 +370,10 @@ const Procesamiento = () => {
     Postularme,
     Postulaciones,
     PostulacionesInf,
-    ActualizarPostulados
+    ActualizarPostulados,
+    guardarIntencionPago,
+    GuardarMetodoPago,
+    tarjetas, Tarjetas,
   }
 }
 

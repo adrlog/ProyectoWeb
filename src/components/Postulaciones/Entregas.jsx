@@ -197,9 +197,20 @@ const Entregas = () => {
                 </Row>
                 <Row>
                     <Col>
-                    <center>
-                        <Button onClick={handleShow}>Hacer entrega</Button>
-                    </center>
+                    {
+                        docTrabajo&&docTrabajo.aentregas?(
+                        <center>
+                            <Alert variant='success'>
+                                Entrega realizada
+                            </Alert>
+                        </center>
+                        ):(
+                        <center>
+                            <Button onClick={handleShow}>Hacer entrega</Button>
+                        </center>
+                        )
+                    }
+
                     </Col>
                 </Row>
                 </Col>

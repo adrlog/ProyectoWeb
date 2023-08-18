@@ -1,68 +1,91 @@
-import React from 'react'
-import { Accordion, Col, Container, Row } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import ProcesarPagos from './ProcesarPagos';
+import { Accordion, Alert, Col, Container, Row } from 'react-bootstrap';
 
 const UltimosMovi = () => {
+
+  const { Movimientos, movimientos } = ProcesarPagos();
+
+  useEffect(() => {
+    Movimientos()
+  }, []);
+
+
+  var fechas = [];
+  if (movimientos) {
+    for (var i = 0; i < movimientos.length; i++) {
+      var date;
+      var tmp = movimientos[i].created;
+      var str = tmp.toString();
+      if (str.length == 10) {
+        date = str + '000'
+      }
+      var fecha = new Date(Number(date));
+      const dia = (fecha.getDate());
+      const mes = (fecha.getMonth() + 1);
+      const año = (fecha.getFullYear());
+
+      fechas.push(`${dia}/${mes}/${año}`);
+
+    }
+  }
+
   return (
     <>
-    <Container className='mt-5'>
-        <Row className='mt-3 Titulo'>
-            <Col md={5}>
-              <a href="/dashboard" className='btn'>
-                <h2>
-                  <i className="fa-solid fa-left-long"></i>
-                </h2>
-              </a>
-            </Col>
-            <Col>
-              <h2>Ultimos movimientos</h2>
-            </Col>
-        </Row>
+      <Container className='mt-5'>
         <Row>
-        <Col md={4} className="mb-2 mt-5">
+          {
+            movimientos ? movimientos.map((doc, i) => (
+              <Col md={4} className="mb-2" key={doc.created}>
 
-        <Accordion defaultActiveKey={0}>
-        <Accordion.Item>
-            <Accordion.Header>
-            <Container>
-                <Row>
-                <Col>
-                    <i className="fa-solid fa-credit-card"></i>
-                </Col>
-                <Col>Cargo</Col>
-                <Col>$14.00</Col>
-                {/* <Col>${doc.amount / 100}</Col> */}
-                </Row>
-            </Container>
-            </Accordion.Header>
-            <Accordion.Body>
-            <Container>
-                <Row>
-                <Col md={6}>
-                    Fecha:
-                </Col>
-                <Col md={6}>
-                    <span>
-                    fecha
-                    </span>
-                </Col>
+                <Accordion defaultActiveKey={0}>
+                  <Accordion.Item eventKey={i}>
+                    <Accordion.Header>
+                      <Container>
+                        <Row>
+                          <Col>
+                            <i className="fa-solid fa-credit-card"></i>
+                          </Col>
+                          <Col>Cargo</Col>
+                          <Col>${doc.amount / 100}</Col>
+                        </Row>
+                      </Container>
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <Container>
+                        <Row>
+                          <Col md={6}>
+                            Fecha:
+                          </Col>
+                          <Col md={6}>
+                            <span>
+                              {fechas[i]}
+                            </span>
+                          </Col>
 
-                <Col md={6}>
-                    Estado:
-                </Col>
-                <Col md={6}>
-                    <span className='text-break'
-                    style={{ maxWidth: '70vw' }}>
-                    {/* {doc.status} */}
-                    estado
-                    </span>
-                </Col>
-                </Row>
-            </Container>
-            </Accordion.Body>
-        </Accordion.Item>
-        </Accordion>
-        </Col>
-         
+                          <Col md={6}>
+                            Estado:
+                          </Col>
+                          <Col md={6}>
+                            <span className='text-break'
+                              style={{ maxWidth: '70vw' }}>
+                              {doc.status}
+                            </span>
+                          </Col>
+                        </Row>
+                      </Container>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </Col>
+            )) : (
+              <center>
+                <Alert variant='danger'>
+                  No se encontraron movimientos
+                </Alert>
+              </center>
+            )
+          }
         </Row>
       </Container>
     </>

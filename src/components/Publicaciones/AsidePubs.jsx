@@ -4,16 +4,21 @@ import { Alert, Button, ButtonGroup, Carousel, Col, Container, Modal, Row } from
 import user from '../../assets/defaultuser.jpg';
 import carga from "../../assets/img/loading-cargando.gif"
 import PagoPorEntrega from './PagoPorEntrega';
+import PaymentForm from './PaymentForm';
 
 const AsidePubs = () => {
 
-  const {Detalles, setFunsion, Vista, setVista, setforaneo, setDetalles}=useContext(PubsContext);
+  const {Detalles, setFunsion, Vista, setVista, setforaneo}=useContext(PubsContext);
   const [modalShow, setModalShow] = useState(false);
   const [Tarjet, setTarjet] = useState(false);
   const [Pubs, setPubs] = useState(false);
   const [hidden, sethidden]=useState(false);
+  const {pagado, setpagado}=useState('');
+  const [show, setShow] = useState(false);
   const {CalcularMontoPago, message,status, StateCancel} = PagoPorEntrega();
-  const {pagado, setpagado}=useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   const accion=(us, action)=>{
     setFunsion([us, action, Pubs]);
@@ -36,13 +41,13 @@ const AsidePubs = () => {
         <Modal.Header closeButton className='HedreModal'>
           <Modal.Title id="contained-modal-title-vcenter">
             <Row>
-              <Col md={5}> 
+              <Col lg={2}> 
                 <img src={Tarjet.imagen?Tarjet.imagen:user} className='imgMuroPerfil' />
               </Col>
               <Col>
               <Row>
                 <Col md={12}>{Tarjet.nombre}</Col>
-                <Col>{Tarjet.mensaje?Tarjet.mensaje:''}</Col>
+                <Col><h6>{Tarjet.mensaje?Tarjet.mensaje:''}</h6></Col>
               </Row>
               </Col>
             </Row>
@@ -113,41 +118,14 @@ const AsidePubs = () => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Continuar'
-          }).then(async (result) => {  
+        }).then(async (result) => {  
             if (result.isConfirmed) {
-                
-                entrega.entregado=true;
-                setpagado(true);
-                // var res= await CalcularMontoPago(Detalles);
-                StateCancel(Detalles, 'Finalizado', entrega);
-                
-            let timerInterval;
-                Swal.fire({
-                title: 'Confirmando entrega!',
-                html: 'transfiriendo al trabajador <b></b> Agradecemos su pasciencia.',
-                timer: 1000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading()
-                    const b = Swal.getHtmlContainer().querySelector('b')
-                    timerInterval = setInterval(() => {
-                    b.textContent = message;
-                    }, 20)
-                }, 
-                willClose: () => {
-                    clearInterval(timerInterval)
-                }
-                }).then((result) => {
-                /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    // console.log('I was closed by the timer')
-                }
-                })
-                // setShow(true);
+              setShow(true);
+                // entrega.entregado=true;
             }
-          })
+          });
     }
-}
+  }
 
 
   return (
@@ -212,7 +190,7 @@ const AsidePubs = () => {
         <Row className="mt-1 pb-1 pt-1 m-1">
           <Col>
           {
-            Detalles?Detalles.aentregas.map((entrega, i)=>(
+            Detalles.aentregas?Detalles.aentregas.map((entrega, i)=>(
             <Container key={i}> 
                 <Row>
                     <Col className='bgentregassub mt-4 mb-3 contentEntregas' 
@@ -283,6 +261,7 @@ const AsidePubs = () => {
                                 <div className="d-grid gap-2">
                                 <center>
                                     {
+                                      Detalles&&Detalles.Postulados[0].pagos?
                                         !hidden?(
                                             <Button variant='outline-success' size="lg"
                                             onClick={()=> ConfirmarEntrega(entrega, i)}
@@ -296,6 +275,10 @@ const AsidePubs = () => {
                                                 Confirmar entrega
                                             </Button>
                                         )
+                                        : <Alert variant='warning'>
+                                          Este usuario no puede recibir pagos por la plataforma
+                                          pide que de de alta su cuenta para continuar
+                                        </Alert>
                                     }
                                 </center>
                               </div>
@@ -321,6 +304,35 @@ const AsidePubs = () => {
       </Container>
       )
     }
+
+    <Modal show={show} onHide={handleClose} animation={false}   
+      backdrop="static"
+        keyboard={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            Transfiere su monto al trabajador
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <center>
+                <Col>Estas a punto de pagar</Col>
+                <Col>
+                  <h5>${Detalles.Presupuesto} </h5>
+                </Col>
+                <Col>a</Col>
+                <Col>
+                  <h5>Rapi-Tex</h5>
+                </Col>
+              </center>
+            </Row>
+          </Container>
+          <Container className="mt-3">
+            <PaymentForm />
+          </Container>
+        </Modal.Body>
+      </Modal>
     </>
   )
 }

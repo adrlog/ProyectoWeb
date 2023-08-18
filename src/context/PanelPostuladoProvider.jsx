@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import Procesamiento from '../components/Publicaciones.jsx/Procesamiento';
+import Procesamiento from '../components/Publicaciones/Procesamiento';
 import ProcesarPagos from '../components/Pagos/ProcesarPagos';
 
 export const PostContext = createContext();

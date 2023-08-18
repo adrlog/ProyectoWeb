@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Alert, Button, Col, Container, Image, Row } from 'react-bootstrap'
-import Procesamiento from '../Publicaciones.jsx/Procesamiento'
+import Procesamiento from '../Publicaciones/Procesamiento'
 import { logout } from "../../config/firebase"
 import userDefault from '../../assets/defaultuser.jpg'
 import { PostContext } from '../../context/PanelPostuladoProvider'

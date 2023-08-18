@@ -1,5 +1,5 @@
 import React from 'react'
-import VistaPublicaciones from '../components/Publicaciones.jsx/VistaPublicaciones'
+import VistaPublicaciones from '../components/Publicaciones/VistaPublicaciones'
 import PanelPubsProvider from '../context/PanelPubsProvider'
 
 const Publicar = () => {

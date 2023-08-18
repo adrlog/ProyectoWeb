@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import user from '../../assets/defaultuser.jpg';
 import { PanelContext } from "../../context/PanelTrabajosProvider";
-import Procesamiento from '../Publicaciones.jsx/Procesamiento';
+import Procesamiento from '../Publicaciones/Procesamiento';
 import Comentarios from './Comentario';
 import CaruzelPanelPublic from './CaruzelPanelPublic';
 import carga from "../../assets/img/loading-cargando.gif"

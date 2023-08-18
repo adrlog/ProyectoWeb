@@ -1,12 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Accordion, Alert, Col, Container, Row } from 'react-bootstrap'
 import avatar from '../../assets/userCorp.png';
 import { PagosContext } from '../../context/PanelPagosProvider';
+import ProcesarPagos from './ProcesarPagos';
 
 const Principal = () => {
 
   const {Nombre, Estado}=useContext(PagosContext);
-  // console.log(Estado)
+  const { Data, DatosCuenta,}=ProcesarPagos();
+
+  useEffect(()=>{
+    DatosCuenta();
+  },[])
+  // console.log(Data)
   return (
     <Container>
         <Row className='mt-4 Titulo'>
@@ -33,15 +39,15 @@ const Principal = () => {
             </Row>
             <Row className='mt-3'>
               <Col>Balance:</Col>
-              <Col>$0.0</Col>
+              <Col>${Data&&Data.Balance}</Col>
             </Row>
             <Row className='mt-3'>
               <Col>Cuenta a transferir:</Col>
-              <Col>**** **** **** 7320</Col>
+              <Col>{Data&&Data.Cuenta}</Col>
             </Row>
             <Row className='mt-3'>
               <Col>Estado del perfil:</Col>
-              <Col>{Estado}</Col>
+              <Col>{Data&&Data.Estado}</Col>
             </Row>
               </center>
           </Col>

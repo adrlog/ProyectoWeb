@@ -96,12 +96,14 @@ const PagoPorEntrega = () => {
   const StateCancel = async (docRefer, estado, entrega) =>{
     const SetStateWork = doc(db, "Usuarios", docRefer.idSolicita, 'Trabajos', docRefer.id);
 
+    console.log(docRefer, estado, entrega);
+
     if(estado=='Finalizado'){
       updateDoc(
         SetStateWork, 
         {
           "Estado": estado,
-          "aentregas":arrayUnion(entrega)
+          "aentregas":[entrega]
         }
       );
     } else {

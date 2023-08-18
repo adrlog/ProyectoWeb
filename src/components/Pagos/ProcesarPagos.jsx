@@ -26,6 +26,9 @@ const ProcesarPagos = () => {
     var user=auth.currentUser.uid.toString();
 
     const[Account,setAccount]=useState();
+    const[Data,setData]=useState();
+    const [movimientos, setMovimientos]=useState(null);
+
 
     const AceptarContrato=async ()=>{
 
@@ -41,6 +44,8 @@ const ProcesarPagos = () => {
             Customer_id,
             Estado:'Incompleto',
             date: serverTimestamp(),
+            Balance:"0.0",
+            Cuenta: "sin cuenta"
         }).then(async res=>{
 
             setTimeout(async ()=>{
@@ -77,10 +82,32 @@ const ProcesarPagos = () => {
         // console.log(Count.data());
     }
 
+    const DatosCuenta=async ()=>{
+        const Refpay=doc(db, 'Stripe-Custom', user);
+        const pagos=await getDoc(Refpay);
+        setData(pagos.data());
+    }
+
+    const Movimientos = async ()=>{
+        const q = collection(db, "Stripe-Custom", user,"payments");
+        const querySnapshot = await getDocs(q);
+
+        if(querySnapshot.docs.length>0){
+            const dataDB=querySnapshot.docs.map((doc)=>doc.data());
+            setMovimientos(dataDB);
+        } else{
+            setMovimientos(null);
+        }
+    }
+
   return {
     AceptarContrato,
     Account,
     CuentaPagos,
+    Data,
+    DatosCuenta,
+    Movimientos,
+    movimientos
   }
 }
 

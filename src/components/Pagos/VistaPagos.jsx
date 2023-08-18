@@ -5,11 +5,12 @@ import UltimosMovi from './UltimosMovi';
 import TarjetasGuardadas from './TarjetasGuardadas';
 import { PagosContext } from '../../context/PanelPagosProvider';
 import ProcesarPagos from './ProcesarPagos';
+import { db } from '../../config/firebase';
 
 
 const VistaPagos = () => {
 
-    const {Pagos, Correo, setActualizar}=useContext(PagosContext);
+    const {Pagos, Correo, setActualizar, setPagos}=useContext(PagosContext);
     const [PrincipalPerfil, setPrincipalPerfil] = useState(true);
     const [segundo, setsegundo] = useState(false);
     const [tercero, settercero] = useState(false);
@@ -17,7 +18,6 @@ const VistaPagos = () => {
     const [Carga, setCarga]=useState(null);
     const Contrato = useRef(null);
     const {AceptarContrato}=ProcesarPagos();
-
 
     const TyC = () =>{
 
@@ -82,9 +82,16 @@ const VistaPagos = () => {
         // funcion ajax para terminos y condiciones
         var Res = await AceptarContrato(files);
         if(Res=='Finally'){
+            // console.log('respuesta, actualizando');
             setCarga('Enviando terminos y condiciones a Stripe');
             setActualizar(true);
+
         }
+
+        setTimeout(async ()=>{
+            // console.log('recargando');
+            setPagos(true);
+        },1500);
     }
 
   return (

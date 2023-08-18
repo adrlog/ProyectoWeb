@@ -2,7 +2,11 @@ import React, { useContext } from 'react'
 import { PubsContext } from '../../context/PanelPubsProvider'
 import { Col, Row } from 'react-bootstrap'
 import Muro from './Muro'
+import {loadStripe} from '@stripe/stripe-js'
+import {Elements} from '@stripe/react-stripe-js'
 import AsidePubs from './AsidePubs'
+const KEYS =import.meta.env.VITE_STRIPPE_PUBLIC_KEY;
+const stripePromise = loadStripe(KEYS)
 
 const Historial = () => {
     const {Publicar, setPublicar}=useContext(PubsContext);
@@ -13,6 +17,8 @@ const Historial = () => {
 
   return (
     <>
+    <Elements stripe={stripePromise}>
+
     <Row className="bg-light p-1  rounded justify-content-center mt-2">
       <Col xs={10} className="p-1 ">
         <button
@@ -33,6 +39,9 @@ const Historial = () => {
         <AsidePubs></AsidePubs>
     </Col>
     </Row>
+
+    </Elements>
+
     </>
   )
 }

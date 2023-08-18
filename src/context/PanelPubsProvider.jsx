@@ -1,6 +1,6 @@
 import React from 'react'
 import { createContext, useEffect, useState } from 'react'
-import Procesamiento from '../components/Publicaciones.jsx/Procesamiento';
+import Procesamiento from '../components/Publicaciones/Procesamiento';
 
 export const PubsContext = createContext();
 
@@ -12,8 +12,23 @@ const PanelPubsProvider = (props) => {
     const [Vista, setVista] = useState(false);
     const [docUsuario, setdocUsuario] = useState(false);
     const [foraneo, setforaneo] = useState(false);
+    const [metodosPago, setmetodosPago]=useState(false);
+    const [Pagado, setPagado]=useState(false);
 
-    const {ActualizarPostulados, Perfil, UserInf,}=Procesamiento();
+
+    const {ActualizarPostulados, Perfil, 
+      UserInf,tarjetas, Tarjetas,}=Procesamiento();
+
+      useEffect(()=>{
+        Tarjetas();
+      },[]);
+    
+      useEffect(()=>{
+        if(tarjetas){
+          setmetodosPago(tarjetas);
+          console.log(tarjetas, 'hola y mis tarjetas?')
+        }
+      },[tarjetas]);
 
     useEffect(()=>{
       Perfil();
@@ -27,7 +42,8 @@ const PanelPubsProvider = (props) => {
 
   return (
     <PubsContext.Provider 
-    value={{Publicar, setPublicar, Detalles, setDetalles, setFunsion, Vista, setVista, docUsuario, foraneo, setforaneo}}>
+    value={{Publicar, setPublicar, Detalles, setDetalles, setFunsion, Vista, 
+    setVista, docUsuario, foraneo, setforaneo, metodosPago, Pagado, setPagado}}>
         {props.children}
     </PubsContext.Provider>
   )
