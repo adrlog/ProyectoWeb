@@ -323,7 +323,7 @@ const AsidePubs = () => {
                 </Col>
                 <Col>a</Col>
                 <Col>
-                  <h5>Rapi-Tex</h5>
+                  <h5>{Detalles.Postulados&&Detalles.Postulados[0].nombre}</h5>
                 </Col>
               </center>
             </Row>

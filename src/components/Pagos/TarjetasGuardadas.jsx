@@ -10,6 +10,8 @@ const TarjetasGuardadas = () => {
     Perfil();
   },[])
 
+  console.log(UserInf);
+
   return (
     <>
          <Container className='mt-5 bg-light p-2'>
@@ -24,7 +26,7 @@ const TarjetasGuardadas = () => {
 
     {tarjetas!=undefined?tarjetas.map((doc)=>(
 
-    <Container className='mt-2 bg-light p-2' key={UserInf.userName}>
+    <Container className='mt-2 bg-light p-2' key={doc.card.last4}>
         <Row>
             <Col md={9} xs={12} lg={5}>
                 <Container>
@@ -38,7 +40,7 @@ const TarjetasGuardadas = () => {
                         </Col>
                         <Col>
                         <div> Ex data {doc.card.exp_month}/{doc.card.exp_year} </div>
-                        <div>{UserInf.userName} </div>   
+                        <div>{UserInf&&UserInf.nombre} </div>   
                         </Col>
                     </Container>
                 </Container>

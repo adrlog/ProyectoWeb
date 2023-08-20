@@ -57,13 +57,13 @@ const Principal = () => {
           <center>
               <Col className="mt-4">
                 {
-                  Estado=='Incompleto'?(
+                  Data&&Data.Estado=='Incompleto'?(
                     <Alert variant='danger'>
                       Completa tu perfil de socio para poder recibir pagos
                     </Alert>
                   ):(
                     <Alert variant='primary'>
-                      Tu cuenta esta complet!! ya puedes empezar a cobrar por este medio
+                      Tu cuenta esta completa!! ya puedes empezar a cobrar por este medio
                     </Alert>
                   )
                 }
